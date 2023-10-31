@@ -1,3 +1,4 @@
+import { BodyNotInserted, CPFExists, CPFLength, ClientNotFound, EmailAlreadyRegistered, EmailExists, EmailFormat, EnterNewPassword, InsertEmail, NameLength, PasswordLength, PasswordWrong, PhoneExists, SamePassword } from "../customError/AllErrors";
 import { ClientsDatabase } from "../database/client.Database";
 import { IdGenerator } from "../services/idGenerator";
 import { RandomPassword } from "../services/randomPassword";
@@ -10,24 +11,24 @@ export class ClientsBusines{
         try {
             const {nameClient, cpfClient, passwordClient, phoneClient, emailClient} = client
 
-            if(!nameClient || !passwordClient || !phoneClient || !cpfClient || !emailClient) throw new Error('Todas as informacoes devem ser preenchidas.');
+            if(!nameClient || !passwordClient || !phoneClient || !cpfClient || !emailClient) throw new BodyNotInserted()
 
-            if(passwordClient.length !== 6 ) throw new Error(" a senha precisa contér 6 caracteres.");
-            if(cpfClient.length !== 11) throw new Error("O CPF precisa conter 11 digitos");
-            if(nameClient.length < 10) throw new Error("O nome precisa conter no minimo 10 caracteres");
-            if(!emailClient.includes('@') || !emailClient.includes('.com')) throw new Error("Formato de email inválido");
+            if(passwordClient.length !== 6 ) throw new PasswordLength()
+            if(cpfClient.length !== 11) throw new CPFLength()
+            if(nameClient.length < 10) throw new NameLength()
+            if(!emailClient.includes('@') || !emailClient.includes('.com')) throw new EmailFormat()
             
             
 
             const verifyCPF = await this.clientsDatabase.getClientByCpf(cpfClient)
-            if(verifyCPF.length === 1) throw new Error(`Este CPF ja esta sendo utilizado por outro cliente.`)
+            if(verifyCPF.length === 1) throw new CPFExists()
             
             
             const verifyPhone = await this.clientsDatabase.getClientByCpf(phoneClient)
-            if(verifyPhone.length === 1) throw new Error(`Este telefone ja esta sendo utilizado por outro cliente.`)
+            if(verifyPhone.length === 1) throw new PhoneExists()
             
             const verifyEmail = await this.clientsDatabase.getClientByEmail(emailClient)
-            if(verifyEmail.length !== 0) throw new Error("Este email ja esta sendo utilizado por outro cliente.");
+            if(verifyEmail.length !== 0) throw new EmailExists()
             
             
             const idClient = IdGenerator.generate()
@@ -53,13 +54,13 @@ export class ClientsBusines{
         try {
             const{ cpf, password} = login 
 
-            if(!cpf || !password) throw new Error('Todas os campos precisam ser preenchidos.')
-            if(cpf.length !== 11) throw new Error('O CPF precisa conter 11 digitos.');
-            if(password.length !== 6) throw new Error('A senha precisa conter 6 digitos.');
+            if(!cpf || !password) throw new BodyNotInserted()
+            if(cpf.length !== 11) throw new CPFLength();
+            if(password.length !== 6) throw new PasswordLength();
 
             const verifyCPF = await this.clientsDatabase.getClientByCpf(cpf)
-            if(verifyCPF.length !== 1) throw new Error("Cliente não encontrado.");
-            if(verifyCPF[0].client_password !== password) throw new Error("Senha inválida.");
+            if(verifyCPF.length !== 1) throw new ClientNotFound();
+            if(verifyCPF[0].client_password !== password) throw new PasswordWrong();
 
             const client = await this.clientsDatabase.getClientByCpf(cpf)
             return client 
@@ -74,7 +75,7 @@ export class ClientsBusines{
     getClientByCPF = async(cpf:string)=>{
         try {
             const verifyCPF = await this.clientsDatabase.getClientByCpf(cpf)
-            if(verifyCPF.length !== 1) throw new Error("Client nao encontrado");
+            if(verifyCPF.length !== 1) throw new ClientNotFound();
 
             const result = await this.clientsDatabase.getClientByCpf(cpf)
             return result
@@ -86,11 +87,11 @@ export class ClientsBusines{
 
     changePassword = async(email:string)=>{
         try {
-            if(!email) throw new Error('Digite seu email')
-            if(!email.includes('@') || !email.includes('.com')) throw new Error ('Formato de email inválido.')
+            if(!email) throw new InsertEmail()
+            if(!email.includes('@') || !email.includes('.com')) throw new EmailFormat()
 
             const verifyClient = await this.clientsDatabase.getClientByEmail(email)
-            if(verifyClient.length === 0) throw new Error ("Este email nao está cadastrado.")
+            if(verifyClient.length === 0) throw new EmailAlreadyRegistered()
         
             const newPass = RandomPassword.Generate()
            
@@ -110,12 +111,12 @@ export class ClientsBusines{
 
     updatePassword = async(newPassword:string, idClient:string)=>{
         try {
-           if(!newPassword) throw new Error('Digite uma nova senha')
-           if(newPassword.length !== 6 ) throw new Error(" a senha precisa contér 6 caracteres.");
+           if(!newPassword) throw new EnterNewPassword()
+           if(newPassword.length !== 6 ) throw new PasswordLength()
 
            const verifyClient = await this.clientsDatabase.getClientById(idClient)
-           if(verifyClient.length === 0) throw new Error('Cliente nao localizado.')
-           if(verifyClient[0].client_password === newPassword) throw new Error('A nova senha não pode ser igual a senha atual.')
+           if(verifyClient.length === 0) throw new ClientNotFound()
+           if(verifyClient[0].client_password === newPassword) throw new SamePassword()
 
            await this.clientsDatabase.updatePassword(newPassword, idClient)
 
