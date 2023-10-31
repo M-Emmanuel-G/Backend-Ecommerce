@@ -18,13 +18,14 @@ export class ProductsController{
     
     addProducts = async  (req:Request, res:Response)=>{
         try {
-            const {product, productDescription, productPrice, productImg} = req.body
+            const {product, productDescription, productPrice, productImg, productCategory} = req.body
             
             const newProduct:ProductDTO = {
                 product, 
                 productDescription,
                 productPrice,
-                productImg
+                productImg,
+                productCategory,
             }
 
             await this.productsBusiness.addProduct(newProduct)
@@ -61,14 +62,15 @@ export class ProductsController{
     updateProduct = async(req:Request, res:Response)=>{
         try {
 
-            const {product, productImg, productDescription, productPrice} = req.body
+            const {product, productImg, productDescription, productPrice, productCategory} = req.body
             const {idProduct} = req.params
 
             const updateProduct:ProductDTO = {
                 product,
                 productImg,
                 productDescription,
-                productPrice
+                productPrice,
+                productCategory
             }
 
             await this.productsBusiness.updateProduct(updateProduct, idProduct)

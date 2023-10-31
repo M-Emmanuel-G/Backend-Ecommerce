@@ -17,9 +17,11 @@ export class ProductsBusiness{
 
     addProduct = async (newProduct:ProductDTO)=>{
         try {
-            const {product, productImg, productDescription, productPrice} = newProduct
+            const {product, productImg, productDescription, productPrice, productCategory} = newProduct
 
-            if(!product  || !productDescription || !productImg || !productPrice) throw new Error("Todos os campos precisam ser inseridos.");
+            if(!product  || !productDescription || !productImg || !productPrice || !productCategory) throw new Error("Todos os campos precisam ser inseridos.");
+
+            if(productPrice <= 0) throw new Error('O valor nao pode ser abaixo de zero.')
 
             const id = IdGenerator.generate()
 
@@ -28,7 +30,8 @@ export class ProductsBusiness{
                 productImg,
                 productDescription,
                 productPrice,
-                product
+                product,
+                productCategory
             }
 
             await this.productsDatabase.addProduct(NewProduct)
@@ -66,7 +69,7 @@ export class ProductsBusiness{
 
     updateProduct = async(updateProduct:ProductDTO, idProduct:string)=>{
         try {
-            const {product, productImg, productDescription, productPrice} = updateProduct
+            const {product, productImg, productDescription, productPrice, productCategory} = updateProduct
 
             const verifyProduct = await this.productsDatabase.getProduct(idProduct);
             if(verifyProduct.length === 0 ) throw new BodyNotInserted()
@@ -78,7 +81,8 @@ export class ProductsBusiness{
                 product,
                 productImg,
                 productDescription,
-                productPrice
+                productPrice,
+                productCategory
             }
 
             await this.productsDatabase.updateProduct(newUpdate, idProduct)

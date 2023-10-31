@@ -4,13 +4,15 @@ import { PurchaseDatabase } from './../database/purchaseDatabase';
 import { ProductsDatabase } from '../database/productsDatabase';
 import { IdGenerator } from '../services/idGenerator';
 import { DateGenerator } from '../services/dateGenertor';
+import { Purchase } from '../models/purchaseModel';
+import { DateDelivery } from '../services/dateDelivery';
 export class PurchaseBusiness{
 
     purchaseDatabase = new PurchaseDatabase();
     clientDatabase = new ClientsDatabase();
     productDatabase = new ProductsDatabase()
 
-    makePurchase = async(purchase:any)=>{
+    makePurchase = async(purchase:Purchase)=>{
         try {
             const { qtdPurchase, idClient, idProduct} = purchase
 
@@ -32,7 +34,7 @@ export class PurchaseBusiness{
                 datePurchase : date,
                 idClient,
                 idProduct,
-                deliveryTime: DateGenerator.generateDate()
+                deliveryTime: DateDelivery.generateDate(),
             }
 
             await this.purchaseDatabase.makePurchase(newPurchase)

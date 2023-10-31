@@ -5,7 +5,7 @@ export class PurchaseDatabase extends BaseDatabase {
 
     makePurchase = async (purchase:any)=>{
         try {
-            const { idPurchase, qtdPurchase, datePurchase, idClient, idProduct, deliveryTime} = purchase
+            const { idPurchase, qtdPurchase, datePurchase, idClient, idProduct, deliveryTime,} = purchase
 
             await PurchaseDatabase.connection(this.TABLE_NAME)
                 .insert(
@@ -16,7 +16,7 @@ export class PurchaseDatabase extends BaseDatabase {
                         fk_client:idClient,
                         fk_product:idProduct,
                         purchase_delivery: deliveryTime,
-                        status:'Aguardando aprovação do pagamento.'
+                        purchase_status:'Seu pedido esta sendo empacotado para ser despachado.',
                     }
                 )
         } catch (error:any) {
