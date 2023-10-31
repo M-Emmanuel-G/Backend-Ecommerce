@@ -25,8 +25,11 @@ Márcio Emmanuel Gonçalves
   
 ## links
 
+   * [Link dos endPoints](https://ecommerce-backend-dpon.onrender.com)
+   * [Link Documentação Postman]()
+
 ## Objetivo do projeto
 
-  Projeto feito com intuido educacional, para que possa desenvolver minhas habilidades
+   Realizado para clientes conseguirem realizar compras online, entregando uma experiência unica e simples aos nossos clientes.
 
 ## Acessando o projeto
