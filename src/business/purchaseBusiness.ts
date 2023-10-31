@@ -6,6 +6,10 @@ import { IdGenerator } from '../services/idGenerator';
 import { DateGenerator } from '../services/dateGenertor';
 import { Purchase } from '../models/purchaseModel';
 import { DateDelivery } from '../services/dateDelivery';
+import { QuantityFormat, QuantityNotFound } from '../customError/purchaseErrors';
+import { ClientNotFound } from '../customError/AllErrors';
+import { ProductNotFound } from '../customError/ProductsErrors';
+
 export class PurchaseBusiness{
 
     purchaseDatabase = new PurchaseDatabase();
@@ -16,14 +20,14 @@ export class PurchaseBusiness{
         try {
             const { qtdPurchase, idClient, idProduct} = purchase
 
-            if(!qtdPurchase) throw new Error('Quantidade nao informada.')
-            if(qtdPurchase <= 0 || qtdPurchase >= 6) throw new Error('Quantidade deve ser enter 0 e 5.')
+            if(!qtdPurchase) throw new QuantityNotFound()
+            if(qtdPurchase <= 0 || qtdPurchase >= 6) throw new QuantityFormat()
 
             const verifyClient = await this.clientDatabase.getClientById(idClient)
-            if(verifyClient.length  !== 1) throw new Error("Cliente nao encontrado.");
+            if(verifyClient.length  !== 1) throw new ClientNotFound()
             
             const verifyProduct = await this.productDatabase.getProduct(idProduct)
-            if(verifyProduct.length !== 1) throw new Error("Produto nao encontrado.")
+            if(verifyProduct.length !== 1) throw new ProductNotFound()
 
             const id = IdGenerator.generate()
             const date = DateGenerator.generateDate()
@@ -47,7 +51,7 @@ export class PurchaseBusiness{
     getPurchasesByClient = async (idClient:string)=>{
         try {
             const verifyClient = await this.clientDatabase.getClientById(idClient)
-            if(verifyClient.length === 0) throw new Error( 'Cliente nao existe')
+            if(verifyClient.length === 0) throw new ClientNotFound()
 
             const result = await this.purchaseDatabase.getPurchasesByClient(idClient)
             return result
