@@ -1,18 +1,21 @@
 import { Request, Response } from 'express';
 import { PurchaseBusiness } from './../business/purchaseBusiness';
+import { Purchase } from '../models/purchaseModel';
 export class PurchaseController{
     purchaseBusiness = new PurchaseBusiness();
 
     makePurchase = async (req:Request, res:Response)=>{
         try {
-            const {qtdPurchase} = req.body
-            const {idClient, idProduct} = req.params
+            const {idClient, idProduct, qtdPurchase} = req.params
 
-            const newPurchase = {
-                qtdPurchase,
+           const converterPurchase =  Number(qtdPurchase)
+
+            const newPurchase:Purchase = {
+                qtdPurchase: converterPurchase,
                 idClient,
-                idProduct
+                idProduct,
             }
+            
 
             await this.purchaseBusiness.makePurchase(newPurchase)
 

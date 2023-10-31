@@ -34,7 +34,7 @@ export class ClientsController{
             }
 
             const result = await this.clientsBusiness.loginClient(login)
-            res.status(200).send({message:"Cliente Logado com sucesso.", idClient:result})
+            res.status(200).send({message:"Cliente Logado com sucesso.", result})
         } catch (error:any) {
             res.status(400).send(error.message);
         }

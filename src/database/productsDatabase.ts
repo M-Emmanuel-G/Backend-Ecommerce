@@ -16,7 +16,7 @@ TABLE_NAME = 'E_Products'
 
     addProduct = async(newProduct:Product)=>{
         try {
-            const {idProduct, productPrice, productImg, productDescription, product } = newProduct
+            const {idProduct, productPrice, productImg, productDescription, product, productCategory } = newProduct
 
             await ProductsDatabase.connection(this.TABLE_NAME)
                 .insert(
@@ -25,7 +25,8 @@ TABLE_NAME = 'E_Products'
                         product: product,
                         product_price: productPrice,
                         product_img: productImg,
-                        product_description: productDescription
+                        product_description: productDescription,
+                        product_categories: productCategory
                     }
                 )
         } catch (error:any) {
@@ -61,13 +62,14 @@ TABLE_NAME = 'E_Products'
     
     updateProduct = async(updateProduct:ProductDTO, idProduct:string)=>{
         try {
-            const {product, productImg, productDescription, productPrice} = updateProduct
+            const {product, productImg, productDescription, productPrice, productCategory} = updateProduct
 
             const newUpdate = {
                 product,
                 productImg,
                 productDescription,
-                productPrice
+                productPrice,
+                productCategory
             }
 
             await ProductsDatabase.connection(this.TABLE_NAME)

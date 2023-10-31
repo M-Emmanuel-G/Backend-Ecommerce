@@ -62,7 +62,7 @@ export class ClientsBusines{
             if(verifyCPF[0].client_password !== password) throw new Error("Senha inválida.");
 
             const client = await this.clientsDatabase.getClientByCpf(cpf)
-            return client[0].client_id
+            return client
 
             
         } catch (error:any) {
