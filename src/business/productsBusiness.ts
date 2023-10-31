@@ -2,6 +2,7 @@ import { BodyNotInserted } from './../customError/AllErrors';
 import { ProductsDatabase } from "../database/productsDatabase";
 import { Product, ProductDTO } from "../models/productsModel";
 import { IdGenerator } from "../services/idGenerator";
+import { NumberFormat, ProductNotFound, ValueInvalid } from '../customError/ProductsErrors';
 
 export class ProductsBusiness{
     productsDatabase = new ProductsDatabase()
@@ -19,9 +20,9 @@ export class ProductsBusiness{
         try {
             const {product, productImg, productDescription, productPrice, productCategory} = newProduct
 
-            if(!product  || !productDescription || !productImg || !productPrice || !productCategory) throw new Error("Todos os campos precisam ser inseridos.");
+            if(!product  || !productDescription || !productImg || !productPrice || !productCategory) throw new BodyNotInserted()
 
-            if(productPrice <= 0) throw new Error('O valor nao pode ser abaixo de zero.')
+            if(productPrice <= 0) throw new ValueInvalid()
 
             const id = IdGenerator.generate()
 
@@ -44,7 +45,7 @@ export class ProductsBusiness{
     getProduct = async (idProduct:string)=>{
         try {
            const verifyProduct = await this.productsDatabase.getProduct(idProduct);
-           if(verifyProduct.length === 0 ) throw new Error('Producto nao encontrado.');
+           if(verifyProduct.length === 0 ) throw new ProductNotFound()
 
            const result = await this.productsDatabase.getProduct(idProduct)
            return result
@@ -58,7 +59,7 @@ export class ProductsBusiness{
         try {
             
            const verifyProduct = await this.productsDatabase.getProduct(idProduct);
-           if(verifyProduct.length === 0 ) throw new BodyNotInserted()
+           if(verifyProduct.length === 0 ) throw new ProductNotFound
 
            await this.productsDatabase.getProduct(idProduct)
            
@@ -75,7 +76,7 @@ export class ProductsBusiness{
             if(verifyProduct.length === 0 ) throw new BodyNotInserted()
 
             if(!product || !productImg || !productDescription || !productPrice) throw new BodyNotInserted()
-            if(isNaN(productPrice)) throw new Error('Formato invalido.. sera aceito somente numeros.')
+            if(isNaN(productPrice)) throw new NumberFormat()
 
             const newUpdate:ProductDTO = {
                 product,
