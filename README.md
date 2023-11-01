@@ -32,4 +32,9 @@ Márcio Emmanuel Gonçalves
 
    Realizado para clientes conseguirem realizar compras online, entregando uma experiência unica e simples aos nossos clientes.
 
+## Observações
+   
+   O projeto pode demorar um pouco para ser executado devido ao uso gratuito da hospedagem.
+
 ## Acessando o projeto
+
