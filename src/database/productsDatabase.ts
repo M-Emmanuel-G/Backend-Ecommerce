@@ -4,13 +4,14 @@ import { BaseDatabase } from "./baseDatabase";
 export class ProductsDatabase extends BaseDatabase{
 
 
-    // allProducts = async ()=>{
-    //     try {
-           
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+    allProducts = async ()=>{
+        try {
+           const result = await ProductsDatabase.connection.products.findMany()
+           return result
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
 
     addProduct = async(newProduct:Product)=>{
         try {
@@ -30,51 +31,49 @@ export class ProductsDatabase extends BaseDatabase{
         }
     }
 
-    // getProduct = async (idProduct:string)=>{
-    //     try {
-    //         const result = await ProductsDatabase.connection.products.findUnique
+    getProduct = async (idProduct:string)=>{
+        try {
+            const result = await ProductsDatabase.connection.products.findUnique({
+                where:{id:idProduct}
+            })
 
-    //         return result
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+            return result
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
 
-    // removeProduct = async (idProduct:string)=>{
-    //     try {
-    //         await ProductsDatabase.connection(this.TABLE_NAME)
-    //         .delete()
-    //         .where({
-    //             id_product:idProduct
-    //         })
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+    removeProduct = async (idProduct:string)=>{
+        try {
+            await ProductsDatabase.connection.products.delete({
+                where:{
+                    id:idProduct
+                }
+            })
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
     
-    // updateProduct = async(updateProduct:ProductDTO, idProduct:string)=>{
-    //     try {
-    //         const {product, productImg, productDescription, productPrice, productCategory} = updateProduct
+    updateProduct = async(updateProduct:ProductDTO, idProduct:string)=>{
+        try {
+            const {product, productImg, productDescription, productPrice} = updateProduct
 
-    //         const newUpdate = {
-    //             product,
-    //             productImg,
-    //             productDescription,
-    //             productPrice,
-    //             productCategory
-    //         }
+            const newUpdate = {
+                product,
+                urlImg: productImg,
+                description: productDescription,
+                price: productPrice
+            }
 
-    //         await ProductsDatabase.connection(this.TABLE_NAME)
-    //             .update(newUpdate)
-    //             .where(
-    //                 {
-    //                     id_product : idProduct,
-    //                 }
-    //             )
+            await ProductsDatabase.connection.products.update({
+                where: {id: idProduct},
+                data : newUpdate
+            })
 
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
 
 }
