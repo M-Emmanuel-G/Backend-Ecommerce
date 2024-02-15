@@ -6,26 +6,25 @@ export class ProductsController{
 
     productsBusiness = new ProductsBusiness();
 
-    allProducts = async (req:Request, res:Response)=>{
-        try {
-            const result = await this.productsBusiness.allProducts()
+    // allProducts = async (req:Request, res:Response)=>{
+    //     try {
+    //         const result = await this.productsBusiness.allProducts()
             
-            res.status(200).send(result)
-        } catch (error:any) {
-            res.status(400).send(error.message);
-        }
-    }
+    //         res.status(200).send(result)
+    //     } catch (error:any) {
+    //         res.status(400).send(error.message);
+    //     }
+    // }
     
     addProducts = async  (req:Request, res:Response)=>{
         try {
-            const {product, productDescription, productPrice, productImg, productCategory} = req.body
+            const {product, productDescription, productPrice, productImg} = req.body
             
             const newProduct:ProductDTO = {
                 product, 
                 productDescription,
                 productPrice,
                 productImg,
-                productCategory,
             }
 
             await this.productsBusiness.addProduct(newProduct)
@@ -37,46 +36,46 @@ export class ProductsController{
         }
     }
 
-    getProduct = async (req:Request, res:Response)=>{
-        try {
-           const {idProduct} = req.params
+    // getProduct = async (req:Request, res:Response)=>{
+    //     try {
+    //        const {idProduct} = req.params
 
-           const result = await this.productsBusiness.getProduct(idProduct)
-           res.status(200).send(result)
-        } catch (error:any) {
-            res.status(400).send(error.message);
-        }
-    }
+    //        const result = await this.productsBusiness.getProduct(idProduct)
+    //        res.status(200).send(result)
+    //     } catch (error:any) {
+    //         res.status(400).send(error.message);
+    //     }
+    // }
 
-    removeProduct = async (req:Request, res:Response)=>{
-        try {
-            const {idProduct} = req.params
+    // removeProduct = async (req:Request, res:Response)=>{
+    //     try {
+    //         const {idProduct} = req.params
 
-            await this.productsBusiness.getProduct(idProduct)
-            res.status(200).send('Produto removido com sucesso.')
-        } catch (error:any) {
-            res.status(400).send(error.message);
-        }
-    }
+    //         await this.productsBusiness.getProduct(idProduct)
+    //         res.status(200).send('Produto removido com sucesso.')
+    //     } catch (error:any) {
+    //         res.status(400).send(error.message);
+    //     }
+    // }
 
-    updateProduct = async(req:Request, res:Response)=>{
-        try {
+    // updateProduct = async(req:Request, res:Response)=>{
+    //     try {
 
-            const {product, productImg, productDescription, productPrice, productCategory} = req.body
-            const {idProduct} = req.params
+    //         const {product, productImg, productDescription, productPrice, productCategory} = req.body
+    //         const {idProduct} = req.params
 
-            const updateProduct:ProductDTO = {
-                product,
-                productImg,
-                productDescription,
-                productPrice,
-                productCategory
-            }
+    //         const updateProduct:ProductDTO = {
+    //             product,
+    //             productImg,
+    //             productDescription,
+    //             productPrice,
+    //             productCategory
+    //         }
 
-            await this.productsBusiness.updateProduct(updateProduct, idProduct)
+    //         await this.productsBusiness.updateProduct(updateProduct, idProduct)
 
-        } catch (error:any) {
-            res.status(400).send(error.message)
-        }
-    }
+    //     } catch (error:any) {
+    //         res.status(400).send(error.message)
+    //     }
+    // }
 }
