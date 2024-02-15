@@ -4,7 +4,6 @@ export interface Product{
     productPrice: number;
     productImg: string;
     productDescription: string;
-    productCategory:string;
 }
 
 export interface ProductDTO{
@@ -12,5 +11,4 @@ export interface ProductDTO{
     productPrice: number;
     productImg: string;
     productDescription: string;
-    productCategory:string;
 }

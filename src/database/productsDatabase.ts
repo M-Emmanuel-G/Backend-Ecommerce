@@ -2,13 +2,12 @@ import { Product, ProductDTO } from "../models/productsModel";
 import { BaseDatabase } from "./baseDatabase";
 
 export class ProductsDatabase extends BaseDatabase{
-TABLE_NAME = 'E_Products'
+
 
     allProducts = async ()=>{
         try {
-            const result = await ProductsDatabase.connection(this.TABLE_NAME)
-                .select()
-            return result
+           const result = await ProductsDatabase.connection.products.findMany()
+           return result
         } catch (error:any) {
             throw new Error(error.message);
         }
@@ -16,19 +15,17 @@ TABLE_NAME = 'E_Products'
 
     addProduct = async(newProduct:Product)=>{
         try {
-            const {idProduct, productPrice, productImg, productDescription, product, productCategory } = newProduct
+            const { productPrice, productImg, productDescription, product} = newProduct
 
-            await ProductsDatabase.connection(this.TABLE_NAME)
-                .insert(
-                    {
-                        id_product: idProduct,
-                        product: product,
-                        product_price: productPrice,
-                        product_img: productImg,
-                        product_description: productDescription,
-                        product_categories: productCategory
-                    }
-                )
+            await ProductsDatabase.connection.products.create({
+                data:{
+                    description: productDescription,
+                    price:productPrice,
+                    product:product,
+                    urlImg:productImg
+                }
+            })
+                
         } catch (error:any) {
             throw new Error(error.message);
         }
@@ -36,10 +33,8 @@ TABLE_NAME = 'E_Products'
 
     getProduct = async (idProduct:string)=>{
         try {
-            const result = await ProductsDatabase.connection(this.TABLE_NAME)
-            .select()
-            .where({
-                id_product:idProduct
+            const result = await ProductsDatabase.connection.products.findUnique({
+                where:{id:idProduct}
             })
 
             return result
@@ -50,10 +45,10 @@ TABLE_NAME = 'E_Products'
 
     removeProduct = async (idProduct:string)=>{
         try {
-            await ProductsDatabase.connection(this.TABLE_NAME)
-            .delete()
-            .where({
-                id_product:idProduct
+            await ProductsDatabase.connection.products.delete({
+                where:{
+                    id:idProduct
+                }
             })
         } catch (error:any) {
             throw new Error(error.message);
@@ -62,23 +57,19 @@ TABLE_NAME = 'E_Products'
     
     updateProduct = async(updateProduct:ProductDTO, idProduct:string)=>{
         try {
-            const {product, productImg, productDescription, productPrice, productCategory} = updateProduct
+            const {product, productImg, productDescription, productPrice} = updateProduct
 
             const newUpdate = {
                 product,
-                productImg,
-                productDescription,
-                productPrice,
-                productCategory
+                urlImg: productImg,
+                description: productDescription,
+                price: productPrice
             }
 
-            await ProductsDatabase.connection(this.TABLE_NAME)
-                .update(newUpdate)
-                .where(
-                    {
-                        id_product : idProduct,
-                    }
-                )
+            await ProductsDatabase.connection.products.update({
+                where: {id: idProduct},
+                data : newUpdate
+            })
 
         } catch (error:any) {
             throw new Error(error.message);

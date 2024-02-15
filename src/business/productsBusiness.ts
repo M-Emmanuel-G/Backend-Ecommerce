@@ -7,20 +7,12 @@ import { NumberFormat, ProductNotFound, ValueInvalid } from '../customError/Prod
 export class ProductsBusiness{
     productsDatabase = new ProductsDatabase()
 
-    allProducts = async ()=>{
+    addProduct =  async(newProduct:ProductDTO)=>{
         try {
-            const result = await this.productsDatabase.allProducts()
-            return result
-        } catch (error:any) {
-            throw new Error(error.message);
-        }
-    }
 
-    addProduct = async (newProduct:ProductDTO)=>{
-        try {
-            const {product, productImg, productDescription, productPrice, productCategory} = newProduct
+            const {product, productImg, productDescription, productPrice} = newProduct
 
-            if(!product  || !productDescription || !productImg || !productPrice || !productCategory) throw new BodyNotInserted()
+            if(!product  || !productDescription || !productImg || !productPrice) throw new BodyNotInserted()
 
             if(productPrice <= 0) throw new ValueInvalid()
 
@@ -32,11 +24,18 @@ export class ProductsBusiness{
                 productDescription,
                 productPrice,
                 product,
-                productCategory
             }
 
             await this.productsDatabase.addProduct(NewProduct)
-            
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    allProducts = async ()=>{
+        try {
+            const result = await this.productsDatabase.allProducts()
+            return result
         } catch (error:any) {
             throw new Error(error.message);
         }
@@ -44,8 +43,8 @@ export class ProductsBusiness{
 
     getProduct = async (idProduct:string)=>{
         try {
-           const verifyProduct = await this.productsDatabase.getProduct(idProduct);
-           if(verifyProduct.length === 0 ) throw new ProductNotFound()
+           const verifyProduct = await this.productsDatabase.getProduct(idProduct)
+           if(!verifyProduct ) throw new ProductNotFound()
 
            const result = await this.productsDatabase.getProduct(idProduct)
            return result
@@ -59,9 +58,9 @@ export class ProductsBusiness{
         try {
             
            const verifyProduct = await this.productsDatabase.getProduct(idProduct);
-           if(verifyProduct.length === 0 ) throw new ProductNotFound
+           if(!verifyProduct ) throw new ProductNotFound
 
-           await this.productsDatabase.getProduct(idProduct)
+           await this.productsDatabase.removeProduct(idProduct)
            
         } catch (error:any) {
             throw new Error(error.message);
@@ -70,20 +69,19 @@ export class ProductsBusiness{
 
     updateProduct = async(updateProduct:ProductDTO, idProduct:string)=>{
         try {
-            const {product, productImg, productDescription, productPrice, productCategory} = updateProduct
-
+            const {product, productImg, productDescription, productPrice} = updateProduct
+            
             const verifyProduct = await this.productsDatabase.getProduct(idProduct);
-            if(verifyProduct.length === 0 ) throw new BodyNotInserted()
-
+            if(!verifyProduct) throw new ProductNotFound()
+            
             if(!product || !productImg || !productDescription || !productPrice) throw new BodyNotInserted()
             if(isNaN(productPrice)) throw new NumberFormat()
-
+            
             const newUpdate:ProductDTO = {
                 product,
                 productImg,
                 productDescription,
                 productPrice,
-                productCategory
             }
 
             await this.productsDatabase.updateProduct(newUpdate, idProduct)
