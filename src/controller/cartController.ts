@@ -5,31 +5,31 @@ export class CartController{
 
     cartBusiness = new CartBusiness();
 
-    // addCart = async (req:Request, res:Response)=>{
-    //     try {
-    //         const qtdPurchase = req.body.qtdPurchase as number
-    //         const idProduct = req.body.idProduct as string
-    //         const idClient = req.body.idClient as string
+    addCart = async (req:Request, res:Response)=>{
+        try {
+            const qtdPurchase = req.body.qtdPurchase as number
+            const idProduct = req.body.idProduct as string
+            const idClient = req.body.idClient as string
 
-    //         await this.cartBusiness.addCart(idClient, qtdPurchase, idProduct)
-    //         res.status(200).send({message:'Produto adicionado ao carrinho.'})
-    //     } catch (error:any) {
-    //         res.status(400).send(error.message);
-    //     }
-    // }
+            await this.cartBusiness.addCart(idClient, qtdPurchase, idProduct)
+            res.status(200).send({message:'Produto adicionado ao carrinho.'})
+        } catch (error:any) {
+            res.status(400).send(error.message);
+        }
+    }
 
-    // getCart = async (req:Request, res:Response)=>{
-    //     try {
+    getCart = async (req:Request, res:Response)=>{
+        try {
 
-    //         const idClient = req.params.idClient as string
+            const idClient = req.params.idClient as string
            
-    //        const result =  await this.cartBusiness.getCart(idClient)
-    //        res.status(200).send(result)
+           const result =  await this.cartBusiness.getCart(idClient)
+           res.status(200).send(result)
 
-    //     } catch (error:any) {
-    //         res.status(400).send(error.message);
-    //     }
-    // }
+        } catch (error:any) {
+            res.status(400).send(error.message);
+        }
+    }
 
     // removeItemCart = async(req:Request, res:Response)=>{
     //     try {

@@ -2,42 +2,33 @@ import { BaseDatabase } from "./baseDatabase";
 
 export class CartDatabase extends BaseDatabase{
 
-    TABLE_NAME = 'E_Cart'
 
-    // getCart = async (idClient:string)=>{
-    //     try {
+    getCart = async (idClient:string)=>{
+        try {
             
-    //         const result = await CartDatabase.connection(this.TABLE_NAME)
-            
-    //         .select()
-    //         .join('E_Products','E_Cart.fk_product','=','E_Products.id_product')
-    //         .where(
-    //             {
-    //                 fk_client : idClient
-    //             }
-    //             )
-    //             return result
-            
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+          const result = CartDatabase.connection.cart.findUnique({
+            where:{id:idClient}
+          })
+          return result  
 
-    // addCart = async (idClient:string, idCart:string, qtdPurchase:number, idProduct:string)=>{
-    //     try {
-    //         await CartDatabase.connection(this.TABLE_NAME)
-    //             .insert(
-    //                 {
-    //                     cart_id : idCart,
-    //                     qtd_purchase : qtdPurchase,
-    //                     fk_product : idProduct,
-    //                     fk_client : idClient 
-    //                 }
-    //             )
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    addCart = async (idClient:string, qtdPurchase:number, idProduct:string)=>{
+        try {
+            await CartDatabase.connection.cart.create({
+                data:{
+                    quantity:qtdPurchase,
+                    productId:idProduct,
+                    userID:idClient
+                }
+            })
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
 
     // removeItemCart = async(idCart:string)=>{
     //     try {
