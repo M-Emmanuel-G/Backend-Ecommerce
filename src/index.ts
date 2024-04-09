@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors'
 import { clientsRouter } from './routes/clientsRouter';
 import { usersRouter } from './routes/userRouter';
+import { supplierRouter } from './routes/SupplierRouter';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cors())
 app.use('/InventoryStock/Products', productsRouter)
 app.use('/InventoryStock/Clients', clientsRouter)
 app.use("/InventoryStock/Users", usersRouter)
+app.use("/InventoryStock/Suppliers", supplierRouter)
 
 app.listen(3003, ()=>{
     console.log('SERVER IS RUNNING IN PORT 3003');

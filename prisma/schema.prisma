@@ -40,7 +40,6 @@ model Suppliers{
   supplier String 
   cod_supplier Int @unique @default(autoincrement())
   cnpj String @unique
-  status String 
   Address String
   contact String
   email String @unique
@@ -83,7 +82,7 @@ model Report{
 
 }
 
-model ProductsRelease{`
+model ProductsRelease{
   id String @id @default(cuid())
   cod_release Int @unique @default(autoincrement())
   qtd Decimal @db.Decimal(10,2)
