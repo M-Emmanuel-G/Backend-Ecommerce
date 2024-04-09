@@ -1,12 +1,13 @@
 import { Product, ProductDTO } from "../models/productsModel";
+import { db } from "../prisma";
+import { DateGenerator } from "../services/dateGenertor";
 import { BaseDatabase } from "./baseDatabase";
 
 export class ProductsDatabase extends BaseDatabase{
 
-
     allProducts = async ()=>{
         try {
-           const result = await ProductsDatabase.connection.products.findMany()
+           const result = await db.products.findMany()
            return result
         } catch (error:any) {
             throw new Error(error.message);
@@ -15,14 +16,14 @@ export class ProductsDatabase extends BaseDatabase{
 
     addProduct = async(newProduct:Product)=>{
         try {
-            const { productPrice, productImg, productDescription, product} = newProduct
+            const { productPrice,product} = newProduct
 
             await ProductsDatabase.connection.products.create({
                 data:{
-                    description: productDescription,
+                    entry_time:DateGenerator.generateDate(),
                     price:productPrice,
                     product:product,
-                    urlImg:productImg
+                    qtd_stock:0,
                 }
             })
                 
@@ -57,12 +58,10 @@ export class ProductsDatabase extends BaseDatabase{
     
     updateProduct = async(updateProduct:ProductDTO, idProduct:string)=>{
         try {
-            const {product, productImg, productDescription, productPrice} = updateProduct
+            const {product, productPrice} = updateProduct
 
             const newUpdate = {
                 product,
-                urlImg: productImg,
-                description: productDescription,
                 price: productPrice
             }
 

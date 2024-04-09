@@ -1,80 +1,109 @@
 import { Request, Response } from "express";
-// import { ClientsBusines } from "../business/clientsBusiness";
+import { ClientsModel, ClientsUpdateModel, updateClientAvailable } from "../models/clientsModel";
+import { ClientsBusines } from "../business/clientsBusiness";
 
 export class ClientsController{
-    // clientsBusiness = new ClientsBusines();
+    clientsBusiness = new ClientsBusines();
 
-    // signUpClient = async (req:Request, res:Response)=>{
-    //     try {
-    //         const {nameClient, cpfClient, passwordClient, phoneClient, emailClient} = req.body
-
-    //         const newClient = {
-    //             nameClient,
-    //             cpfClient,
-    //             passwordClient,
-    //             phoneClient,
-    //             emailClient
-    //         }
-
-    //         await this.clientsBusiness.signUpClient(newClient)
-    //         res.status(201).send({message:'Cliente cadastrado com sucesso..'})
-
-    //     } catch (error:any) {
-    //         res.status(400).send(error.message);
-    //     }
-    // }
-
-    // loginClient = async(req:Request, res:Response)=>{
-    //     try {
-    //         const { cpf, password} = req.body
-
-    //         const login = {
-    //             cpf,
-    //             password
-    //         }
-
-    //         const result = await this.clientsBusiness.loginClient(login)
-    //         res.status(200).send({message:"Cliente Logado com sucesso.", result})
-    //     } catch (error:any) {
-    //         res.status(400).send(error.message);
-    //     }
-    // }
-
-    // getClientByCPF = async (req:Request, res:Response)=>{
-    //     try {
-    //         const {cpf} = req.params
-
-    //         const result =  await this.clientsBusiness.getClientByCPF(cpf)
-
-    //         res.status(200).send(result)
-
-    //     } catch (error:any) {
-    //         res.status(400).send(error.message);
+    createClient = async (req:Request, res:Response)=>{
+        try {
+            const {name, address, contact, email} = req.body
             
-    //     }
-    // }
+            const data:ClientsModel = {
+                address,
+                name,
+                contact,
+                email
+            }
 
-    // changePassword = async (req:Request, res:Response)=>{
-    //     try {
-    //         const {email} = req.body
+            await this.clientsBusiness.createClient(data)
 
-    //         const result = await this.clientsBusiness.changePassword(email)
-    //         res.status(200).send({message:"Uma nova senha foi enviada para o seu email...", result})
-    //     } catch (error:any) {
-    //         res.status(400).send(error.message);
-    //     }
-    // }
+            res.status(200).send({message:"Cliente Cadastrado com sucesso!"})
 
-    // updatePassword = async(req:Request, res:Response)=>{
-    //     try {
-    //         const {newPassword} = req.body
-    //         const {idClient}= req.params
+        } catch (error:any) {
+            res.status(400).send(error.message);
             
-    //         await this.clientsBusiness.updatePassword(newPassword, idClient)
-    //         res.status(200).send({message:"Sua senha foi alterada com sucesso..."})
+        }
+    }
 
-    //     } catch (error:any) {
-    //         res.status(400).send(error.message)
-    //     }
-    // }
+    getAllClient = async(req:Request, res:Response)=>{
+        try {
+           
+            const result = await this.clientsBusiness.getAllClient()
+            res.status(200).send(result)
+
+        } catch (error:any) {
+            res.status(400).send(error.message)
+        }
+    }
+
+    updateClient = async(req:Request, res:Response)=>{
+        try {
+           
+            const {name, address, contact, email} = req.body
+            const {id} = req.params
+
+            const data:ClientsUpdateModel = {
+                address,
+                contact,
+                email,
+                id,
+                name,
+            }
+
+            await this.clientsBusiness.updateClient(data)
+
+            res.status(200).send({message:"Cliente atualizado com sucesso!"})
+
+        } catch (error:any) {
+            res.status(400).send(error.message)
+        }
+    }
+
+    deleteClient = async(req:Request, res:Response)=>{
+        try {
+
+            const {id} = req.params
+            await this.clientsBusiness.deleteClient(id)
+           
+            res.status(200).send({message:"Cliente excluido com sucesso!"})
+        } catch (error:any) {
+            res.status(400).send(error.message)
+        }
+    }
+
+    getClient = async(req:Request, res:Response)=>{
+        try {
+           
+            const {id} = req.params
+
+            const result = await this.clientsBusiness.getClient(id)
+
+            res.status(200).send(result)
+
+        } catch (error:any) {
+            res.status(400).send(error.message)
+        }
+    }
+
+    updateClientAvailable = async(req:Request, res:Response)=>{
+        try {
+
+            const {available} = req.body
+            const {id} = req.params
+
+            const data:updateClientAvailable = {
+                available,
+                id
+            }
+
+            await this.clientsBusiness.updateClientAvailable(data)
+
+            res.status(200).send({message:"Disponibilidade alterada com sucesso!"})
+            
+        } catch (error:any) {
+            res.status(400).send(error.message)
+        }
+    } 
+
 }

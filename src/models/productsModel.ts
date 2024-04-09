@@ -1,14 +1,11 @@
 export interface Product{
-    idProduct: string;
     product: string;
     productPrice: number;
-    productImg: string;
-    productDescription: string;
+    qtdStock:number;
+    entryTime: string
 }
 
 export interface ProductDTO{
     product: string;
     productPrice: number;
-    productImg: string;
-    productDescription: string;
 }

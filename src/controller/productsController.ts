@@ -22,9 +22,7 @@ export class ProductsController{
             
             const newProduct:ProductDTO = {
                 product, 
-                productDescription,
                 productPrice,
-                productImg,
             }
 
             await this.productsBusiness.addProduct(newProduct)
@@ -61,13 +59,11 @@ export class ProductsController{
     updateProduct = async(req:Request, res:Response)=>{
         try {
 
-            const {product, productImg, productDescription, productPrice} = req.body
+            const {product, productPrice} = req.body
             const {idProduct} = req.params
 
             const updateProduct:ProductDTO = {
                 product,
-                productImg,
-                productDescription,
                 productPrice,
             }
             
