@@ -106,7 +106,7 @@ model Clients{
 
 model OutputProducts{
   id String @id @default(cuid())
-  cod_output Int @default(autoincrement())
+  cod_output Int @default(autoincrement()) @unique
   date_output String
   qtd_purchase Int
 
