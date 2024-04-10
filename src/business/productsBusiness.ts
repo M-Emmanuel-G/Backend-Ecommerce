@@ -23,8 +23,6 @@ export class ProductsBusiness{
             const NewProduct:Product = {
                 productPrice,
                 product,
-                qtdStock : 0,
-                entryTime: DateGenerator.generateDate()
             }
 
             await this.productsDatabase.addProduct(NewProduct)

@@ -14,15 +14,15 @@ export class ProductsDatabase extends BaseDatabase{
         }
     }
 
-    addProduct = async(newProduct:Product)=>{
+    addProduct = async(data:Product)=>{
         try {
-            const { productPrice,product} = newProduct
+            
 
             await ProductsDatabase.connection.products.create({
                 data:{
                     entry_time:DateGenerator.generateDate(),
-                    price:productPrice,
-                    product:product,
+                    price:data.productPrice,
+                    product:data.product,
                     qtd_stock:0,
                 }
             })
