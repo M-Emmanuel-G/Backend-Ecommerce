@@ -47,6 +47,7 @@ export class SuppliersDatabase extends BaseDatabase{
         try {
             await SuppliersDatabase.connection.suppliers.update({
                 data:{
+                    supplier:data.supplier,
                     Address:data.address,
                     contact:data.contact,
                     email: data.email

@@ -52,10 +52,11 @@ export class SuppliersController{
     updateSupplier = async(req:Request, res:Response)=>{
         try {
          
-            const {address, contact, email} = req.body
+            const {address, contact, email, supplier} = req.body
             const {id} = req.params
 
             const data:UpdateSupplierModel = {
+                supplier,
                 supplierID:id,
                 address,
                 contact,

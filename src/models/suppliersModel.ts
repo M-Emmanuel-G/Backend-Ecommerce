@@ -7,6 +7,7 @@ export interface SupplierModel{
 }
 
 export interface UpdateSupplierModel{
+    supplier?:string
     address?:string
     contact?:string
     email?:string
