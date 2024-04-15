@@ -40,7 +40,7 @@ export class ClientsController{
     updateClient = async(req:Request, res:Response)=>{
         try {
            
-            const {name, address, contact, email} = req.body
+            const {name, address, contact, email, available} = req.body
             const {id} = req.params
 
             const data:ClientsUpdateModel = {
@@ -49,6 +49,7 @@ export class ClientsController{
                 email,
                 id,
                 name,
+                available
             }
 
             await this.clientsBusiness.updateClient(data)

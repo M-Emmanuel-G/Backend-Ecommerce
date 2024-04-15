@@ -11,6 +11,7 @@ export interface ClientsUpdateModel{
     contact: string, 
     email: string
     id:string
+    available:boolean
 }
 
 export interface updateClientAvailable{

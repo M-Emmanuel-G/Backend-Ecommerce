@@ -37,7 +37,7 @@ export class ClientsDatabase extends BaseDatabase{
 
     updateClient = async(data:ClientsUpdateModel)=>{
         try {
-            const {name, address, contact, email, id } = data
+            const {name, address, contact, email, id, available } = data
 
             await ClientsDatabase.connection.clients.update({
                 data:{
@@ -45,6 +45,7 @@ export class ClientsDatabase extends BaseDatabase{
                     contact,
                     email,
                     name,
+                    available
                 },
 
                 where:{

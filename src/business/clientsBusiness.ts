@@ -42,9 +42,9 @@ export class ClientsBusines{
     updateClient = async(data:ClientsUpdateModel)=>{
         try {
             
-            const {name, address, contact, email, id } = data
+            const {name, address, contact, email, id, available } = data
 
-            if(!name || !address || !contact || !email) throw new BodyNotInserted()
+            if(!name || !address || !contact || !email ) throw new BodyNotInserted()
 
             const verifyClient = await this.clientsDatabase.getClient(id)
             if(!verifyClient) throw new ClientNotFound();
@@ -54,7 +54,8 @@ export class ClientsBusines{
                 address,
                 contact,
                 email,
-                id
+                id,
+                available
             }
             
             await this.clientsDatabase.updateClient(update)
