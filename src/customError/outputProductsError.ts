@@ -11,3 +11,15 @@ export class QtdFormat extends BaseError{
         super(400, 'Quantidade precisa ser numero!')
     }
 }
+
+export class QtdStock extends BaseError{
+    constructor(){
+        super(400, 'Estoque Indisponível')
+    }
+}
+
+export class QtdInsufficient extends BaseError{
+    constructor(){
+        super(400, 'Quantidade não disponível')
+    }
+}

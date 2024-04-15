@@ -1,6 +1,6 @@
 import { BodyNotInserted, ClientNotFound } from "../customError/AllErrors"
 import { ProductNotFound } from "../customError/ProductsErrors"
-import { OutputNotFound, QtdFormat } from "../customError/outputProductsError"
+import { OutputNotFound, QtdFormat, QtdInsufficient, QtdStock } from "../customError/outputProductsError"
 import { ClientsDatabase } from "../database/client.Database"
 import { OutPutDatabase } from "../database/outputDatabase"
 import { ProductsDatabase } from "../database/productsDatabase"
@@ -20,6 +20,10 @@ export class OutputBusiness{
 
             const verifyProduct = await this.productsDatabase.getProduct(data.productID)
             if(!verifyProduct) throw new ProductNotFound();
+
+            if(verifyProduct.qtd_stock <= 0) throw new QtdStock();
+            if(data.qtd > verifyProduct.qtd_stock) throw new QtdInsufficient();
+             
 
             const verifyClient = await this.clientsDatabase.getClient(data.clientID)
             if(!verifyClient) throw new ClientNotFound();
