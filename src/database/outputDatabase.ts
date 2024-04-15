@@ -34,7 +34,12 @@ export class OutPutDatabase extends BaseDatabase{
 
     getAllStockOutputs = async ()=>{
         try {
-            const result = await OutPutDatabase.connection.outputProducts.findMany()
+            const result = await OutPutDatabase.connection.outputProducts.findMany({
+                include:{
+                    clients:true,
+                    products:true
+                }
+            })
             return result
         } catch (error:any) {
             throw new Error(error.message)
