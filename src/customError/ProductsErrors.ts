@@ -2,19 +2,18 @@ import { BaseError } from "./baseErrors";
 
 export class ValueInvalid extends BaseError{
     constructor(){
-        super(400, 'O valor inicial precisa ser 1.')
+        super(422, 'O valor Invalido!')
     }
 }
 
 export class ProductNotFound extends BaseError{
     constructor(){
-        super(404, 'Produto não encontrado.')
+        super(422, 'Produto não encontrado!')
     }
 }
 
 export class NumberFormat extends BaseError{
     constructor(){
-        super(400, 'Formato inválido... Será aceito somente numeros')
+        super(422, 'Valor do produto inválido!')
     }
 }
-

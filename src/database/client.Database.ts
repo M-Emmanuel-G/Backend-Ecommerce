@@ -1,115 +1,104 @@
+import { ClientsModel, ClientsUpdateModel, updateClientAvailable } from "../models/clientsModel";
 import { BaseDatabase } from "./baseDatabase";
 
 export class ClientsDatabase extends BaseDatabase{
-    // TABLE_NAME = 'E_Client'
-    // signUpClient = async (client:any)=>{
-    //     try {
-    //         const {idClient, nameClient, cpfClient, passwordClient, phoneClient, emailClient} = client
 
-    //         const newClient = {
-    //             client_id: idClient,
-    //             client_name: nameClient,
-    //             client_cpf: cpfClient,
-    //             client_password: passwordClient,
-    //             client_phone: phoneClient,
-    //             client_email: emailClient
-    //         }
+    createClient = async (data:ClientsModel)=>{
+        try {
 
-    //         await ClientsDatabase.connection(this.TABLE_NAME)
-    //             .insert(newClient)
-                
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+            const {name, address, contact, email} = data
 
-    // getClient = async (idClient:string)=>{
-    //     try {
-    //         const result = await ClientsDatabase.connection(this.TABLE_NAME)
-    //             .select()
-    //             .where({client_id : idClient})
-    //         return result    
-                
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+            await ClientsDatabase.connection.clients.create({
+                data:{
+                    address,
+                    contact,
+                    email,
+                    name
+                }
+            })
+           
 
-    // getClientByCpf = async (cpfClient:string)=>{
-    //     try {
-    //         const result = await ClientsDatabase.connection(this.TABLE_NAME)
-    //             .select()
-    //             .where({client_cpf : cpfClient})
-    //             return result   
-                
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+        } catch (error:any) {
+            throw new Error(error.message);
+            
+        }
+    }
 
-    // getClientByPhone = async (phoneClient:string)=>{
-    //     try {
-    //         const result = await ClientsDatabase.connection(this.TABLE_NAME)
-    //             .select()
-    //             .where({client_phone : phoneClient})
-    //             return result   
-                
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+    getAllClient = async()=>{
+        try {
+           
+          const result = await ClientsDatabase.connection.clients.findMany()
+          return result
 
-    // getClientByEmail = async (emailClient:string)=>{
-    //     try {
-    //         const result = await ClientsDatabase.connection(this.TABLE_NAME)
-    //             .select()
-    //             .where({client_email : emailClient})
-    //             return result   
-                
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
 
-    // getClientById = async (idClient:string)=>{
-    //     try {
-    //         const result = await ClientsDatabase.connection(this.TABLE_NAME)
-    //             .select()
-    //             .where({client_id : idClient})
-    //             return result   
-                
-    //         } catch (error:any) {
-    //             throw new Error(error.message);
-    //         }
-    //     }
+    updateClient = async(data:ClientsUpdateModel)=>{
+        try {
+            const {name, address, contact, email, id, available } = data
 
-    // changePassword = async (changePass:any)=>{
-    //     const {newPass, email} = changePass
-        
-    //     try {
-    //         await ClientsDatabase.connection(this.TABLE_NAME)
-    //         .update({
-    //             client_password:newPass
-    //         })
-    //         .where(
-    //             {client_email:email}
-    //         )
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+            await ClientsDatabase.connection.clients.update({
+                data:{
+                    address,
+                    contact,
+                    email,
+                    name,
+                    available
+                },
 
-    // updatePassword = async(newPassword:string, idClient:string)=>{
-    //     try {
-    //         await ClientsDatabase.connection(this.TABLE_NAME)
-    //             .update(
-    //                 {client_password:newPassword}  
-    //             )
-    //             .where(
-    //                 {client_id:idClient}
-    //                 ) 
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+                where:{
+                    id
+                }
+            })
+
+        } catch (error:any) {
+          throw new Error(error.message);
+        }
+    }
+
+    deleteClient = async(id:string)=>{
+        try {
+           
+            await ClientsDatabase.connection.clients.delete({
+                where:{
+                    id
+                }
+            })
+
+        } catch (error:any) {
+           throw new Error(error.message);
+        }
+    }
+
+    getClient = async(id:string)=>{
+        try {
+           const result = await ClientsDatabase.connection.clients.findUnique({
+            where:{
+                id
+            }
+           })
+           return result
+
+        } catch (error:any) {
+           throw new Error(error.message);
+        }
+    }
+
+    updateClientAvailable = async(data:updateClientAvailable)=>{
+        try {
+
+            await ClientsDatabase.connection.clients.update({
+                data:{
+                    available: data.available
+                },
+                where:{
+                    id: data.id
+                }
+            })
+        } catch (error:any) {
+            throw new Error(error.message)
+        }
+    }
 }

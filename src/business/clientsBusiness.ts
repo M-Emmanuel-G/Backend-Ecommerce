@@ -1,127 +1,109 @@
-import { BodyNotInserted, CPFExists, CPFLength, ClientNotFound, EmailAlreadyRegistered, EmailExists, EmailFormat, EnterNewPassword, InsertEmail, NameLength, PasswordLength, PasswordWrong, PhoneExists, SamePassword } from "../customError/AllErrors";
+import { BodyNotInserted, ClientNotFound, EmailFormat } from "../customError/AllErrors";
+import { AvailableInvalid} from "../customError/clientsErrors";
 import { ClientsDatabase } from "../database/client.Database";
-import { IdGenerator } from "../services/idGenerator";
-import { RandomPassword } from "../services/randomPassword";
+import { ClientsModel, ClientsUpdateModel, updateClientAvailable } from "../models/clientsModel";
 
 export class ClientsBusines{
     clientsDatabase = new ClientsDatabase();
 
+    createClient = async (data:ClientsModel)=>{
+        try {
+            const {name, address, contact, email} = data
 
-    // signUpClient = async (client:any)=>{
-    //     try {
-    //         const {nameClient, cpfClient, passwordClient, phoneClient, emailClient} = client
+            if(!name || !address || !contact || !email) throw new BodyNotInserted()
+            if(!email.includes("@") || !email.includes(".com")) throw new EmailFormat()
 
-    //         if(!nameClient || !passwordClient || !phoneClient || !cpfClient || !emailClient) throw new BodyNotInserted()
+        const addData = {
+            name,
+            address, 
+            contact, 
+            email
+        }
 
-    //         if(passwordClient.length !== 6 ) throw new PasswordLength()
-    //         if(cpfClient.length !== 11) throw new CPFLength()
-    //         if(nameClient.length < 10) throw new NameLength()
-    //         if(!emailClient.includes('@') || !emailClient.includes('.com')) throw new EmailFormat()
+        await this.clientsDatabase.createClient(addData)
+
+        } catch (error:any) {
+            throw new Error(error.message);
             
-            
+        }
+    }
 
-    //         const verifyCPF = await this.clientsDatabase.getClientByCpf(cpfClient)
-    //         if(verifyCPF.length === 1) throw new CPFExists()
-            
-            
-    //         const verifyPhone = await this.clientsDatabase.getClientByCpf(phoneClient)
-    //         if(verifyPhone.length === 1) throw new PhoneExists()
-            
-    //         const verifyEmail = await this.clientsDatabase.getClientByEmail(emailClient)
-    //         if(verifyEmail.length !== 0) throw new EmailExists()
-            
-            
-    //         const idClient = IdGenerator.generate()
-
-    //         const newClient = {
-    //             idClient,
-    //             nameClient,
-    //             cpfClient,
-    //             passwordClient,
-    //             phoneClient,
-    //             emailClient
-
-    //         }
-
-    //         await this.clientsDatabase.signUpClient(newClient)
-
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
-
-    // loginClient = async(login:any)=>{
-    //     try {
-    //         const{ cpf, password} = login 
-
-    //         if(!cpf || !password) throw new BodyNotInserted()
-    //         if(cpf.length !== 11) throw new CPFLength();
-    //         if(password.length !== 6) throw new PasswordLength();
-
-    //         const verifyCPF = await this.clientsDatabase.getClientByCpf(cpf)
-    //         if(verifyCPF.length !== 1) throw new ClientNotFound();
-    //         if(verifyCPF[0].client_password !== password) throw new PasswordWrong();
-
-    //         const client = await this.clientsDatabase.getClientByCpf(cpf)
-    //         return client 
-            
-
-            
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // } 
-
-    // getClientByCPF = async(cpf:string)=>{
-    //     try {
-    //         const verifyCPF = await this.clientsDatabase.getClientByCpf(cpf)
-    //         if(verifyCPF.length !== 1) throw new ClientNotFound();
-
-    //         const result = await this.clientsDatabase.getClientByCpf(cpf)
-    //         return result
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-            
-    //     }
-    // }
-
-    // changePassword = async(email:string)=>{
-    //     try {
-    //         if(!email) throw new InsertEmail()
-    //         if(!email.includes('@') || !email.includes('.com')) throw new EmailFormat()
-
-    //         const verifyClient = await this.clientsDatabase.getClientByEmail(email)
-    //         if(verifyClient.length === 0) throw new EmailAlreadyRegistered()
-        
-    //         const newPass = RandomPassword.Generate()
+    getAllClient = async()=>{
+        try {
            
-    //         const changePass = {
-    //             newPass:newPass ,
-    //             email:email
-    //         }
+            const result = await this.clientsDatabase.getAllClient()
+            return result
+
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    updateClient = async(data:ClientsUpdateModel)=>{
+        try {
             
-    //         const result = newPass
-    //         await this.clientsDatabase.changePassword(changePass)
-    //         return result
+            const {name, address, contact, email, id, available } = data
+
+            if(!name || !address || !contact || !email ) throw new BodyNotInserted()
+
+            const verifyClient = await this.clientsDatabase.getClient(id)
+            if(!verifyClient) throw new ClientNotFound();
+
+            const update:ClientsUpdateModel = {
+                name,
+                address,
+                contact,
+                email,
+                id,
+                available
+            }
             
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+            await this.clientsDatabase.updateClient(update)
 
-    // updatePassword = async(newPassword:string, idClient:string)=>{
-    //     try {
-    //        if(!newPassword) throw new EnterNewPassword()
-    //        if(newPassword.length !== 6 ) throw new PasswordLength()
+        } catch (error:any) {
+          throw new Error(error.message);
+        }
+    }
 
-    //        const verifyClient = await this.clientsDatabase.getClientById(idClient)
-    //        if(verifyClient.length === 0) throw new ClientNotFound()
-    //        if(verifyClient[0].client_password === newPassword) throw new SamePassword()
+    deleteClient = async(id:string)=>{
+        try {
+        
+            const verifyClient = await this.clientsDatabase.getClient(id)
+            if(!verifyClient) throw new ClientNotFound();
 
-    //        await this.clientsDatabase.updatePassword(newPassword, idClient)
+            await this.clientsDatabase.deleteClient(id)
 
-    //     } catch (error:any) {
-    //         throw new Error(error.message);
-    //     }
-    // }
+        } catch (error:any) {
+           throw new Error(error.message);
+        }
+    }
+
+    getClient = async(id:string)=>{
+        try {
+           
+            const verifyClient = await this.clientsDatabase.getClient(id)
+            if(!verifyClient) throw new ClientNotFound();
+
+            const result = await this.clientsDatabase.getClient(id)
+            return result
+
+        } catch (error:any) {
+           throw new Error(error.message);
+        }
+    }
+
+    updateClientAvailable = async(data:updateClientAvailable)=>{
+        try {
+
+            if(data.available !== true && data.available !== false) throw new AvailableInvalid()        
+
+            const verifyClient = await this.clientsDatabase.getClient(data.id)
+            if(!verifyClient) throw new ClientNotFound();
+
+            await this.clientsDatabase.updateClientAvailable(data)
+
+        } catch (error:any) {
+            throw new Error(error.message)
+        }
+    }
 }
