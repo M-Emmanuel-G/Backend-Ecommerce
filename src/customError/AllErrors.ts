@@ -83,3 +83,15 @@ export class SamePassword extends BaseError{
         super(400, 'A nova senha não pode ser igual uma senha antiga.')
     }
 }
+
+export class QtdNotANumber extends BaseError{
+    constructor(){
+        super(400, 'A quantidade precisa ser numero')
+    }
+}
+
+export class PriceNotANumber extends BaseError{
+    constructor(){
+        super(400, 'O valor precisa ser numero')
+    }
+}
