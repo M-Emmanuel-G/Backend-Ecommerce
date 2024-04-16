@@ -4,7 +4,7 @@ import { OutputNotFound, QtdFormat, QtdInsufficient, QtdStock } from "../customE
 import { ClientsDatabase } from "../database/client.Database"
 import { OutPutDatabase } from "../database/outputDatabase"
 import { ProductsDatabase } from "../database/productsDatabase"
-import { OutPutProductsModel, OutPutProductsModelDTO } from "../models/OutPutProductsModel"
+import { OutPutProductsModel, OutPutProductsModelDTO, UpdateOutPutProductsModel } from "../models/OutPutProductsModel"
 import { DateGenerator } from "../services/dateGenertor"
 
 export class OutputBusiness{
@@ -27,6 +27,11 @@ export class OutputBusiness{
 
             const verifyClient = await this.clientsDatabase.getClient(data.clientID)
             if(!verifyClient) throw new ClientNotFound();
+
+            const updateStock:UpdateOutPutProductsModel = {
+                productID: data.productID,
+                qtdStock: verifyProduct.qtd_stock - data.qtd
+            }
             
             const newData:OutPutProductsModel = {
                 clientID:data.clientID,
@@ -35,6 +40,7 @@ export class OutputBusiness{
                 qtd:data.qtd
             }
             
+            await this.productsDatabase.updateProductStock(updateStock)
             await this.outputDatabase.makeStockOutput(newData)
           
         } catch (error:any) {

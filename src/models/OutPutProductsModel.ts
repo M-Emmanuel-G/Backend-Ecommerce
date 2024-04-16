@@ -10,3 +10,8 @@ export interface OutPutProductsModel{
     clientID: string,
     productID:string
 }
+
+export interface UpdateOutPutProductsModel{
+    qtdStock:number
+    productID:string
+}

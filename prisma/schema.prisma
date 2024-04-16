@@ -110,10 +110,10 @@ model OutputProducts{
   date_output String
   qtd_purchase Int
 
-  clientsID String @unique
+  clientsID String
   clients Clients @relation(fields: [clientsID], references: [id])
 
-  productID String @unique
+  productID String
   products Products @relation(fields: [productID], references: [id])
 
 }

@@ -1,4 +1,4 @@
-import { Product, ProductDTO } from "../models/productsModel";
+import { Product, ProductDTO, UpdateProductStockModel } from "../models/productsModel";
 import { db } from "../prisma";
 import { DateGenerator } from "../services/dateGenertor";
 import { BaseDatabase } from "./baseDatabase";
@@ -70,6 +70,21 @@ export class ProductsDatabase extends BaseDatabase{
                 data : newUpdate
             })
 
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    updateProductStock = async(data:UpdateProductStockModel)=>{
+        try {
+            await ProductsDatabase.connection.products.update({
+                where:{
+                    id:data.productID
+                },
+                data:{
+                    qtd_stock: data.qtdStock
+                }
+            })
         } catch (error:any) {
             throw new Error(error.message);
         }
