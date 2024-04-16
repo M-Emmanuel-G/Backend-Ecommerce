@@ -6,7 +6,7 @@ import { EntriesDatabase } from "../database/EntriesDatabase";
 import { ProductsDatabase } from "../database/productsDatabase";
 import { SuppliersDatabase } from "../database/suppliersDatabase";
 import { EntriesModel } from "../models/EntriesModel";
-import { Product, UpdateProductStockModel } from "../models/productsModel";
+import { UpdateProductStockModel } from "../models/productsModel";
 
 export class EntriesBusiness{
 

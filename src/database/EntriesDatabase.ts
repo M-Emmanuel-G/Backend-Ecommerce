@@ -41,6 +41,7 @@ export class EntriesDatabase extends BaseDatabase{
                     product_id:data.productID,
                     supplier_id: data.supplierID
                 
+                
                 }
             })
         } catch (error:any) {
