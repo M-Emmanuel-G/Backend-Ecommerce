@@ -1,7 +1,7 @@
 import { BodyNotInserted, EmailFormat } from "../customError/AllErrors";
-import { RoleUserInvalid, RoleUserNotAdmin, RoleUserNotFound, UserNotFound } from "../customError/UserErrors";
+import { EmailNotInserted, PasswordNotInserted, PasswordWrong, RoleUserInvalid, RoleUserNotAdmin, RoleUserNotFound, UserNotFound } from "../customError/UserErrors";
 import { UsersDatabase } from "../database/UsersDatabase";
-import { UpdateRoleUserModel, UpdateRoleUserModelDTO, UpdateUserModelDTO, UpdateUserModes, UserModel } from "../models/usersModel";
+import { LoginModel, UpdateRoleUserModel, UpdateRoleUserModelDTO, UpdateUserModelDTO, UpdateUserModes, UserModel } from "../models/usersModel";
 
 export class UserBusiness{
     
@@ -111,6 +111,26 @@ export class UserBusiness{
                 
             } catch (error:any) {
                 throw new Error(error.message);
+            }
+        }
+
+        login = async (data:LoginModel)=>{
+            try { 
+                
+                if(!data.email ) throw new EmailNotInserted();
+                if(!data.password ) throw new PasswordNotInserted();
+                if(!data.email.includes("@") || !data.email.includes(".com")) throw new EmailFormat()
+                const user = await this.userDatabase.login(data.email)
+                
+                if(!user) throw new UserNotFound()
+
+                if(data.password !== user.password) throw new PasswordWrong();
+
+                return user
+
+            } catch (error:any) {
+                throw new Error(error.message);
+                
             }
         }
     }
