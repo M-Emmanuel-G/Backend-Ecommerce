@@ -23,3 +23,21 @@ export class RoleUserInvalid extends BaseError{
     }
 }
 
+export class EmailNotInserted extends BaseError{
+    constructor(){
+        super(400, "Email não foi inserido!")
+    }
+}
+
+export class PasswordNotInserted extends BaseError{
+    constructor(){
+        super(400, "Senha não foi inserido!")
+    }
+}
+
+export class PasswordWrong extends BaseError{
+    constructor(){
+        super(400, "Senha inválida!")
+    }
+}
+

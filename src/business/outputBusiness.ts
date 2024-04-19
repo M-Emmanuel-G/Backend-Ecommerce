@@ -1,5 +1,6 @@
 import { BodyNotInserted, ClientNotFound } from "../customError/AllErrors"
 import { ProductNotFound } from "../customError/ProductsErrors"
+import { ClientNotAuthorized } from "../customError/clientsErrors"
 import { OutputNotFound, QtdFormat, QtdInsufficient, QtdStock } from "../customError/outputProductsError"
 import { ClientsDatabase } from "../database/client.Database"
 import { OutPutDatabase } from "../database/outputDatabase"
@@ -27,6 +28,8 @@ export class OutputBusiness{
 
             const verifyClient = await this.clientsDatabase.getClient(data.clientID)
             if(!verifyClient) throw new ClientNotFound();
+            if(verifyClient.available === false) throw new ClientNotAuthorized();
+            
 
             const updateStock:UpdateOutPutProductsModel = {
                 productID: data.productID,

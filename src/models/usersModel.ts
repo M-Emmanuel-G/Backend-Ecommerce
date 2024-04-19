@@ -28,3 +28,8 @@ export interface UpdateRoleUserModel{
     userID:string
     role:string
 }
+
+export interface LoginModel{
+    email:string
+    password:string
+}

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/usersBusines";
-import { UpdateRoleUserModelDTO, UpdateUserModelDTO, UserModel } from "../models/usersModel";
+import { LoginModel, UpdateRoleUserModelDTO, UpdateUserModelDTO, UserModel } from "../models/usersModel";
 
 export class UserController{
     userBusiness = new UserBusiness()
@@ -99,6 +99,25 @@ export class UserController{
 
         } catch (error:any) {
             res.status(400).send(error.message)
+        }
+    }
+
+    login = async (req:Request, res:Response)=>{
+        try {
+            
+            const {email, password} = req.body
+
+            const body:LoginModel = {
+                email,
+                password
+            }
+
+            const result = await this.userBusiness.login(body)
+
+            res.status(200).send({message:"Login realizado com sucesso!", result})
+
+        } catch (error:any) {
+           res.status(400).send(error.message)
         }
     }
 }
