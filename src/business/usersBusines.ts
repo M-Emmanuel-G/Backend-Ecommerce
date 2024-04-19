@@ -19,7 +19,9 @@ export class UserBusiness{
                 }
 
                 const verifyEmail = await this.userDatabase.getUserEmail(email)
-                if(!verifyEmail) throw new EmailAlreadyRegistered();
+                console.log(verifyEmail);
+                
+                if(verifyEmail) throw new EmailAlreadyRegistered();
 
                 await this.userDatabase.addUsers(data)
                 
