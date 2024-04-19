@@ -68,7 +68,7 @@ export class PhoneExists extends BaseError{
 
 export class EmailAlreadyRegistered extends BaseError{
     constructor(){
-        super(400, 'Este CPF ja está sendo utilizado por outro cliente.')
+        super(400, 'Este Email já está sendo utilizado por outro cliente.')
     }
 }
 
