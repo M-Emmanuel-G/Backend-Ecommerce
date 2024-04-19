@@ -1,4 +1,5 @@
 import { ClientsModel, ClientsUpdateModel, updateClientAvailable } from "../models/clientsModel";
+import { UsersDatabase } from "./UsersDatabase";
 import { BaseDatabase } from "./baseDatabase";
 
 export class ClientsDatabase extends BaseDatabase{

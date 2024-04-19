@@ -1,4 +1,4 @@
-import { BodyNotInserted, EmailFormat } from "../customError/AllErrors";
+import { BodyNotInserted, EmailAlreadyRegistered, EmailFormat } from "../customError/AllErrors";
 import { EmailNotInserted, PasswordNotInserted, PasswordWrong, RoleUserInvalid, RoleUserNotAdmin, RoleUserNotFound, UserNotFound } from "../customError/UserErrors";
 import { UsersDatabase } from "../database/UsersDatabase";
 import { LoginModel, UpdateRoleUserModel, UpdateRoleUserModelDTO, UpdateUserModelDTO, UpdateUserModes, UserModel } from "../models/usersModel";
@@ -17,7 +17,10 @@ export class UserBusiness{
                     name,
                     password
                 }
-                
+
+                const verifyEmail = await this.userDatabase.getUserEmail(email)
+                if(!verifyEmail) throw new EmailAlreadyRegistered();
+
                 await this.userDatabase.addUsers(data)
                 
             } catch (error:any) {
