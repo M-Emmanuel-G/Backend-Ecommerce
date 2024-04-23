@@ -19,13 +19,15 @@ export class SuppliersController{
         try {
 
             const {address, cnpj, contact, email, supplier} = req.body
+            const { userID } = req.params
 
             const data:SupplierModel = {
                 address,
                 cnpj,
                 contact,
                 email,
-                supplier
+                supplier,
+                userID
             }
 
             await this.suppliersBusiness.addSuppliers(data)
@@ -53,7 +55,7 @@ export class SuppliersController{
         try {
          
             const {address, contact, email, supplier} = req.body
-            const {id} = req.params
+            const {id, userID} = req.params
 
             const data:UpdateSupplierModel = {
                 supplier,
@@ -61,6 +63,7 @@ export class SuppliersController{
                 address,
                 contact,
                 email,
+                userID,
             }
 
             await this.suppliersBusiness.updateSuppliers(data)
@@ -75,9 +78,9 @@ export class SuppliersController{
     deleteSupplier = async(req:Request, res:Response)=>{
         try {
 
-            const {id} = req.params
+            const {id, userID} = req.params
 
-            await this.suppliersBusiness.deleteSuppliers(id)
+            await this.suppliersBusiness.deleteSuppliers(id, userID)
             res.status(200).send({message:"O fornecedor foi removido com sucesso!"})
         } catch (error:any) {
             res.status(400).send(error.message)

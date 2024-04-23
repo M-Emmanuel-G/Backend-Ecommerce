@@ -4,6 +4,7 @@ export interface SupplierModel{
     address:string
     contact:string
     email:string
+    userID:string
 }
 
 export interface UpdateSupplierModel{
@@ -12,4 +13,5 @@ export interface UpdateSupplierModel{
     contact?:string
     email?:string
     supplierID:string
+    userID:string
 }
