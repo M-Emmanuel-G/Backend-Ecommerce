@@ -18,11 +18,13 @@ export class ProductsController{
     
     addProducts = async  (req:Request, res:Response)=>{
         try {
-            const {product, productDescription, productPrice, productImg} = req.body
+            const {product, productPrice,} = req.body
+            const {userID} = req.params
             
             const newProduct:ProductDTO = {
                 product, 
                 productPrice,
+                userID
             }
 
             await this.productsBusiness.addProduct(newProduct)
@@ -47,9 +49,9 @@ export class ProductsController{
 
     removeProduct = async (req:Request, res:Response)=>{
         try {
-            const {idProduct} = req.params
+            const {idProduct, userID} = req.params
 
-            await this.productsBusiness.removeProduct(idProduct)
+            await this.productsBusiness.removeProduct(idProduct, userID)
             res.status(200).send('Produto removido com sucesso.')
         } catch (error:any) {
             res.status(400).send(error.message);
@@ -60,11 +62,12 @@ export class ProductsController{
         try {
 
             const {product, productPrice} = req.body
-            const {idProduct} = req.params
+            const {idProduct, userID} = req.params
 
             const updateProduct:ProductDTO = {
                 product,
                 productPrice,
+                userID
             }
             
             await this.productsBusiness.updateProduct(updateProduct, idProduct)
