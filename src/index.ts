@@ -18,6 +18,7 @@ app.use("/InventoryStock/Users", usersRouter)
 app.use("/InventoryStock/Suppliers", supplierRouter)
 app.use("/InventoryStock/Outputs", outputRouter)
 app.use("/InventoryStock/Entries", entriesRouter)
+app.use("/InventoryStock/AuditLog/getAll", entriesRouter)
 
 app.listen(3003, ()=>{
     console.log('SERVER IS RUNNING IN PORT 3003');

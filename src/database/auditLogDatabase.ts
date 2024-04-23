@@ -17,4 +17,14 @@ export class AuditLogDatabase extends BaseDatabase{
             throw new Error(error.message);
         }
     }
+
+    getAllAudit = async ()=>{
+        try {
+            const result = await AuditLogDatabase.connection.findMany(
+                )
+            return result
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
 }
