@@ -7,4 +7,4 @@ const entriesController = new EntriesController()
 
 entriesRouter.get("/getAllEntries", entriesController.getAllEntries)
 entriesRouter.get("/getEntry/entryID/:id", entriesController.getEntry)
-entriesRouter.post("/makeEntry/productID/:productID/supplierID/:supplierID", entriesController.makeEntries)
+entriesRouter.post("/makeEntry/productID/:productID/supplierID/:supplierID/userID/:userID", entriesController.makeEntries)

@@ -34,13 +34,14 @@ export class EntriesController{
         try {
 
             const {qtd, price} = req.body
-            const {supplierID, productID} = req.params
+            const {supplierID, productID, userID} = req.params
 
             const data:EntriesModel = {
                 price,
                 qtd,
                 supplierID,
-                productID
+                productID,
+                userID
             }
 
             await this.entriesBusiness.makeEntries(data)
