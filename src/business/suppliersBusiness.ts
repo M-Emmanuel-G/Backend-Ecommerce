@@ -2,10 +2,12 @@ import { BodyNotInserted } from "../customError/AllErrors"
 import { SupplierNotFound } from "../customError/supplierError"
 import { SuppliersDatabase } from "../database/suppliersDatabase"
 import { SupplierModel, UpdateSupplierModel } from "../models/suppliersModel"
+import { AuditLog } from "../services/audit"
 
 export class SuppliersBusiness{
 
     supplierDatabase = new SuppliersDatabase()
+    auditLog = new AuditLog()
 
     getAllSuppliers  = async ()=>{
         try {
@@ -21,9 +23,13 @@ export class SuppliersBusiness{
     addSuppliers  = async (data:SupplierModel)=>{
         try {
 
-            const { address, cnpj, contact, email, supplier }= data
+            const { address, cnpj, contact, email, supplier, userID }= data
 
             if(!address || !cnpj || !contact || !email || !supplier) throw new BodyNotInserted();
+
+            const changed = "Fornecedor Cadastrado!"
+
+            await this.auditLog.auditLog(changed, userID)
             
             await this.supplierDatabase.addSuppliers(data)
 
@@ -54,6 +60,10 @@ export class SuppliersBusiness{
             const verifySupplier = await this.supplierDatabase.getSupplier(data.supplierID)
             if(!verifySupplier) throw new SupplierNotFound();
 
+            const changed = "Fornecedor Cadastrado!"
+
+            await this.auditLog.auditLog(changed, data.userID)
+
             await this.supplierDatabase.updateSuppliers(data)
 
         } catch (error:any) {
@@ -61,12 +71,16 @@ export class SuppliersBusiness{
         }
     }
 
-    deleteSuppliers  = async (id:string)=>{
+    deleteSuppliers  = async (id:string, userID:string)=>{
         try {
 
             const verifySupplier = await this.supplierDatabase.getSupplier(id)
             if(!verifySupplier) throw new SupplierNotFound();
 
+            
+            const changed = "Fornecedor Cadastrado!"
+            
+            await this.auditLog.auditLog(changed, userID)
             await this.supplierDatabase.deleteSuppliers(id)
 
         } catch (error:any) {

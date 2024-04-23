@@ -6,6 +6,7 @@ export interface Product{
 export interface ProductDTO{
     product: string;
     productPrice: number;
+    userID:string
 }
 
 export interface UpdateProductStockModel{

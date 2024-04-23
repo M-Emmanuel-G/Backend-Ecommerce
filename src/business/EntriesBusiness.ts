@@ -7,12 +7,14 @@ import { ProductsDatabase } from "../database/productsDatabase";
 import { SuppliersDatabase } from "../database/suppliersDatabase";
 import { EntriesModel } from "../models/EntriesModel";
 import { UpdateProductStockModel } from "../models/productsModel";
+import { AuditLog } from "../services/audit";
 
 export class EntriesBusiness{
 
     entriesDatabase = new EntriesDatabase()
     productsDatabase = new ProductsDatabase()
     supplierDatabase = new SuppliersDatabase()
+    auditLog = new AuditLog()
 
     getAllEntries = async ()=>{
         try {
@@ -57,6 +59,10 @@ export class EntriesBusiness{
 
             if(!verifyProduct) throw new ProductNotFound()
             if(!verifySupplier) throw new SupplierNotFound()
+
+            const changed = "Nota de entrada adicionada!"
+
+            await this.auditLog.auditLog(changed, data.userID)
                     
             await this.productsDatabase.updateProductStock(updateStock)
             await this.entriesDatabase.makeEntries(data)    

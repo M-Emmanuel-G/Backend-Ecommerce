@@ -8,12 +8,14 @@ export class ClientsController{
     createClient = async (req:Request, res:Response)=>{
         try {
             const {name, address, contact, email} = req.body
+            const {userID} = req.params
             
             const data:ClientsModel = {
                 address,
                 name,
                 contact,
-                email
+                email,
+                userID
             }
 
             await this.clientsBusiness.createClient(data)
@@ -42,6 +44,7 @@ export class ClientsController{
            
             const {name, address, contact, email, available} = req.body
             const {id} = req.params
+            const {userID} = req.params
 
             const data:ClientsUpdateModel = {
                 address,
@@ -49,7 +52,8 @@ export class ClientsController{
                 email,
                 id,
                 name,
-                available
+                available,
+                userID
             }
 
             await this.clientsBusiness.updateClient(data)
@@ -65,7 +69,9 @@ export class ClientsController{
         try {
 
             const {id} = req.params
-            await this.clientsBusiness.deleteClient(id)
+            const {userID} = req.params
+
+            await this.clientsBusiness.deleteClient(userID,id)
            
             res.status(200).send({message:"Cliente excluido com sucesso!"})
         } catch (error:any) {
@@ -92,10 +98,12 @@ export class ClientsController{
 
             const {available} = req.body
             const {id} = req.params
+            const {userID} = req.params
 
             const data:updateClientAvailable = {
                 available,
-                id
+                id,
+                userID
             }
 
             await this.clientsBusiness.updateClientAvailable(data)

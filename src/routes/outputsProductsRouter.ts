@@ -6,4 +6,4 @@ const outpurController = new OutputController()
 
 outputRouter.get("/getAllOutputs", outpurController.getAllStockOutputs)
 outputRouter.get("/getOutput/codOutput/:cod", outpurController.getOutputByCOD)
-outputRouter.post("/create/clientID/:clientID/productID/:productID", outpurController.makeStockOutput)
+outputRouter.post("/create/clientID/:clientID/productID/:productID/userID/:userID", outpurController.makeStockOutput)

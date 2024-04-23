@@ -4,5 +4,6 @@ export interface EntriesModel{
     qtd:number,
     note_value?: number,
     productID:string,
-    supplierID: string
+    supplierID: string,
+    userID:string
 }

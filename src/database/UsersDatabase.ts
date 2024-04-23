@@ -116,11 +116,26 @@ export class UsersDatabase extends BaseDatabase{
             throw new Error(error.message);
         }
     }
+
     getUserEmail = async (email:string)=>{
         try {
             const result = await UsersDatabase.connection.users.findUnique({
                 where:{
                     email
+                }
+            })
+
+            return result
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    getUserID = async (id:string)=>{
+        try {
+            const result = await UsersDatabase.connection.users.findUnique({
+                where:{
+                    id
                 }
             })
 

@@ -1,26 +1,43 @@
 import { BodyNotInserted, ClientNotFound, EmailFormat } from "../customError/AllErrors";
+import { UserNotFound } from "../customError/UserErrors";
 import { AvailableInvalid} from "../customError/clientsErrors";
+import { UsersDatabase } from "../database/UsersDatabase";
+import { AuditLogDatabase } from "../database/auditLogDatabase";
 import { ClientsDatabase } from "../database/client.Database";
 import { ClientsModel, ClientsUpdateModel, updateClientAvailable } from "../models/clientsModel";
 
 export class ClientsBusines{
     clientsDatabase = new ClientsDatabase();
+    auditDatabase = new AuditLogDatabase()
+    usersDatabase = new UsersDatabase()
 
     createClient = async (data:ClientsModel)=>{
         try {
-            const {name, address, contact, email} = data
+            const {name, address, contact, email, userID} = data
 
             if(!name || !address || !contact || !email) throw new BodyNotInserted()
             if(!email.includes("@") || !email.includes(".com")) throw new EmailFormat()
 
-        const addData = {
-            name,
-            address, 
-            contact, 
-            email
-        }
-
-        await this.clientsDatabase.createClient(addData)
+            
+            const addData = {
+                name,
+                address, 
+                contact, 
+                email,
+                userID
+            }
+            
+            
+            const verifyUser = await this.usersDatabase.getUserEmail(userID)
+            if(!verifyUser) throw new UserNotFound();
+            
+            const dataAudit:AuditLogModel = {
+                changed:"Cliente Adicionado",
+                user:verifyUser[0].name,
+            }
+            
+            await this.auditDatabase.createAudit(dataAudit)
+            await this.clientsDatabase.createClient(addData)
 
         } catch (error:any) {
             throw new Error(error.message);
@@ -42,7 +59,7 @@ export class ClientsBusines{
     updateClient = async(data:ClientsUpdateModel)=>{
         try {
             
-            const {name, address, contact, email, id, available } = data
+            const {name, address, contact, email, id, available, userID } = data
 
             if(!name || !address || !contact || !email ) throw new BodyNotInserted()
 
@@ -55,9 +72,18 @@ export class ClientsBusines{
                 contact,
                 email,
                 id,
-                available
+                available,
+                userID
+            }
+            const verifyUser = await this.usersDatabase.getUserEmail(userID)
+            if(!verifyUser) throw new UserNotFound();
+            
+            const dataAudit:AuditLogModel = {
+                changed:"Atualização de cliente",
+                user:verifyUser[0].name,
             }
             
+            await this.auditDatabase.createAudit(dataAudit)
             await this.clientsDatabase.updateClient(update)
 
         } catch (error:any) {
@@ -65,11 +91,21 @@ export class ClientsBusines{
         }
     }
 
-    deleteClient = async(id:string)=>{
+    deleteClient = async(userID:string, id:string)=>{
         try {
         
             const verifyClient = await this.clientsDatabase.getClient(id)
             if(!verifyClient) throw new ClientNotFound();
+
+            const verifyUser = await this.usersDatabase.getUserEmail(userID)
+            if(!verifyUser) throw new UserNotFound();
+            
+            const dataAudit:AuditLogModel = {
+                changed:"Cliente excluido!",
+                user:verifyUser[0].name,
+            }
+            
+            await this.auditDatabase.createAudit(dataAudit)
 
             await this.clientsDatabase.deleteClient(id)
 
@@ -99,6 +135,16 @@ export class ClientsBusines{
 
             const verifyClient = await this.clientsDatabase.getClient(data.id)
             if(!verifyClient) throw new ClientNotFound();
+
+            const verifyUser = await this.usersDatabase.getUserEmail(data.userID)
+            if(!verifyUser) throw new UserNotFound();
+            
+            const dataAudit:AuditLogModel = {
+                changed:"Atualização de cliente",
+                user:verifyUser[0].name,
+            }
+            
+            await this.auditDatabase.createAudit(dataAudit)
 
             await this.clientsDatabase.updateClientAvailable(data)
 
