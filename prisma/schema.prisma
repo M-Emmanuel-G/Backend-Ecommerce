@@ -117,3 +117,13 @@ model OutputProducts{
   products Products @relation(fields: [productID], references: [id])
 
 }
+
+model AuditLog{
+  id String @id @default(cuid())
+  cod_audit Int @default(autoincrement())
+  user String
+  changed String
+  oldValue String
+  newValue String
+  date String
+}
