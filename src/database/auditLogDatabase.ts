@@ -1,15 +1,13 @@
 import { DateGenerator } from "../services/dateGenertor";
 import { BaseDatabase } from "./baseDatabase";
 
-export class AuditLog extends BaseDatabase{
+export class AuditLogDatabase extends BaseDatabase{
     createAudit = async (data:AuditLogModel)=>{
         try {
         
-            await AuditLog.connection.auditLog.create({
+            await AuditLogDatabase.connection.auditLog.create({
                 data:{
                     date: DateGenerator.generateDate(),
-                    newValue: data.newValue,
-                    oldValue: data.oldValue,
                     changed: data.changed,
                     user: data.user
                 }

@@ -3,6 +3,7 @@ export interface ClientsModel{
     address: string,
     contact: string, 
     email: string
+    userID:string
 }
 
 export interface ClientsUpdateModel{
@@ -12,9 +13,11 @@ export interface ClientsUpdateModel{
     email: string
     id:string
     available:boolean
+    userID: string
 }
 
 export interface updateClientAvailable{
     available:boolean
     id:string
+    userID:string
 }

@@ -123,7 +123,5 @@ model AuditLog{
   cod_audit Int @default(autoincrement())
   user String
   changed String
-  oldValue String
-  newValue String
   date String
 }
