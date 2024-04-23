@@ -2,6 +2,7 @@ export interface OutPutProductsModelDTO{
     qtd:number
     clientID: string,
     productID:string
+    userID:string
 }
 
 export interface OutPutProductsModel{

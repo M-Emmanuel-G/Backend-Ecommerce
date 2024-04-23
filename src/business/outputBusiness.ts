@@ -6,6 +6,7 @@ import { ClientsDatabase } from "../database/client.Database"
 import { OutPutDatabase } from "../database/outputDatabase"
 import { ProductsDatabase } from "../database/productsDatabase"
 import { OutPutProductsModel, OutPutProductsModelDTO, UpdateOutPutProductsModel } from "../models/OutPutProductsModel"
+import { AuditLog } from "../services/audit"
 import { DateGenerator } from "../services/dateGenertor"
 
 export class OutputBusiness{
@@ -13,6 +14,7 @@ export class OutputBusiness{
     outputDatabase = new OutPutDatabase()
     productsDatabase = new ProductsDatabase()
     clientsDatabase = new ClientsDatabase()
+    auditLog = new AuditLog()
 
     makeStockOutput = async(data:OutPutProductsModelDTO)=>{
         try {
@@ -42,6 +44,10 @@ export class OutputBusiness{
                 productID:data.productID,
                 qtd:data.qtd
             }
+
+            const changed = "Nota de saida adicionada!"
+
+            await this.auditLog.auditLog(changed, data.userID)
             
             await this.productsDatabase.updateProductStock(updateStock)
             await this.outputDatabase.makeStockOutput(newData)

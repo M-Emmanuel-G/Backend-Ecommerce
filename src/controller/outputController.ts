@@ -9,12 +9,13 @@ export class OutputController{
         try {
 
             const {qtd} = req.body
-            const {clientID, productID} = req.params
+            const {clientID, productID, userID} = req.params
 
             const data:OutPutProductsModelDTO = {
                 clientID,
                 productID,
-                qtd
+                qtd,
+                userID
             }
 
             await this.outputBusiness.makeStockOutput(data)
