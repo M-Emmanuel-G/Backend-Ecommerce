@@ -6,7 +6,7 @@ Márcio Emmanuel Gonçalves
 
 ## Funcionalidades
 
-  *Cadastro de novos clientes
+  * Cadastro de novos clientes
   * Login de usuários
   * Entrada de estoque
   * Saída de estoque
@@ -32,7 +32,7 @@ Márcio Emmanuel Gonçalves
 ## links
 
    * Link dos endpoints - https://ecommerce-backend-dpon.onrender.com
-   * [Link Documentação Postman](https://documenter.getpostman.com/view/22376313/2s9YXcc48D)
+   * []()
 
 ## Objetivo do projeto
 
