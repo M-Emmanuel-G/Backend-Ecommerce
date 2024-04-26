@@ -4,6 +4,7 @@ import { AvailableInvalid} from "../customError/clientsErrors";
 import { UsersDatabase } from "../database/UsersDatabase";
 import { AuditLogDatabase } from "../database/auditLogDatabase";
 import { ClientsDatabase } from "../database/client.Database";
+import { AuditLogModel } from "../models/auditModel";
 import { ClientsModel, ClientsUpdateModel, updateClientAvailable } from "../models/clientsModel";
 
 export class ClientsBusines{
@@ -33,7 +34,7 @@ export class ClientsBusines{
             
             const dataAudit:AuditLogModel = {
                 changed:"Cliente Adicionado",
-                user:verifyUser[0].name,
+                // user:verifyUser.name,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -80,7 +81,7 @@ export class ClientsBusines{
             
             const dataAudit:AuditLogModel = {
                 changed:"Atualização de cliente",
-                user:verifyUser[0].name,
+                // user:verifyUser.name,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -102,7 +103,7 @@ export class ClientsBusines{
             
             const dataAudit:AuditLogModel = {
                 changed:"Cliente excluido!",
-                user:verifyUser[0].name,
+                // user:verifyUser.name,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -141,7 +142,7 @@ export class ClientsBusines{
             
             const dataAudit:AuditLogModel = {
                 changed:"Atualização de cliente",
-                user:verifyUser[0].name,
+                // user:verifyUser.name,
             }
             
             await this.auditDatabase.createAudit(dataAudit)

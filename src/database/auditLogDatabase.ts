@@ -1,3 +1,4 @@
+import { AuditLogModel } from "../models/auditModel";
 import { DateGenerator } from "../services/dateGenertor";
 import { BaseDatabase } from "./baseDatabase";
 
@@ -9,7 +10,7 @@ export class AuditLogDatabase extends BaseDatabase{
                 data:{
                     date: DateGenerator.generateDate(),
                     changed: data.changed,
-                    user: data.user
+                    user: ""
                 }
             })
             
@@ -20,7 +21,7 @@ export class AuditLogDatabase extends BaseDatabase{
 
     getAllAudit = async ()=>{
         try {
-            const result = await AuditLogDatabase.connection.findMany(
+            const result = await AuditLogDatabase.connection.auditLog.findMany(
                 )
             return result
         } catch (error:any) {

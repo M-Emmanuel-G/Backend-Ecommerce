@@ -7,21 +7,20 @@ export class UserBusiness{
     
     userDatabase = new UsersDatabase()
 
-        addUsers = async ({email, name, password}:UserModel)=>{
+        addUsers = async ({email, name,}:UserModel)=>{
             try {
-                if(!email || !name || !password) throw new BodyNotInserted();
+                if(!email || !name ) throw new BodyNotInserted();
                 if(!email.includes("@") || !email.includes(".com")) throw new EmailFormat();
 
                 const data:UserModel = {
                     email,
                     name,
-                    password
+                    // password
                 }
 
-                const verifyEmail = await this.userDatabase.getUserEmail(email)
-                console.log(verifyEmail);
+                // const verifyEmail = await this.userDatabase.getUserEmail(email)
                 
-                if(verifyEmail) throw new EmailAlreadyRegistered();
+                // if(verifyEmail) throw new EmailAlreadyRegistered();
 
                 await this.userDatabase.addUsers(data)
                 
@@ -77,7 +76,7 @@ export class UserBusiness{
                 if(!verifyUser) throw new UserNotFound();
 
                 const verifyAdminRole = await this.userDatabase.getUsers(adminID)
-                if(verifyAdminRole?.role !== "admin") throw new RoleUserNotAdmin()
+                // if(verifyAdminRole?.role !== "admin") throw new RoleUserNotAdmin()
                     
                 const data:UpdateRoleUserModel = {
                     role,
@@ -123,13 +122,13 @@ export class UserBusiness{
             try { 
                 
                 if(!data.email ) throw new EmailNotInserted();
-                if(!data.password ) throw new PasswordNotInserted();
+                // if(!data.password ) throw new PasswordNotInserted();
                 if(!data.email.includes("@") || !data.email.includes(".com")) throw new EmailFormat()
                 const user = await this.userDatabase.login(data.email)
                 
                 if(!user) throw new UserNotFound()
 
-                if(data.password !== user.password) throw new PasswordWrong();
+                // if(data.password !== user.password) throw new PasswordWrong();
 
                 return user
 

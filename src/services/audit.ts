@@ -1,6 +1,7 @@
 import { UserNotFound } from "../customError/UserErrors"
 import { UsersDatabase } from "../database/UsersDatabase"
 import { AuditLogDatabase } from "../database/auditLogDatabase"
+import { AuditLogModel } from "../models/auditModel"
 
 export class AuditLog{
 
@@ -15,7 +16,7 @@ export class AuditLog{
 
             const audit:AuditLogModel ={
                 changed,
-                user: verifyUser[0].name
+                // user: verifyUser.name
             } 
 
             await this.auditDatabase.createAudit(audit)

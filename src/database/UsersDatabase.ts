@@ -3,13 +3,13 @@ import { db } from "../prisma";
 import { BaseDatabase } from "./baseDatabase";
 
 export class UsersDatabase extends BaseDatabase{
-    addUsers = async ({email, name, password}:UserModel)=>{
+    addUsers = async ({email, name}:UserModel)=>{
         try {
-            await db.users.create({
+            await UsersDatabase.connection.users.create({
                 data:{
                     email,
                     name,
-                    password
+                    password:""
                 }
             })
         } catch (error:any) {
@@ -19,7 +19,7 @@ export class UsersDatabase extends BaseDatabase{
 
     getAllUsers = async ()=>{
         try {
-           const result = await db.users.findMany()
+           const result = await UsersDatabase.connection.users.findMany()
            return result
         } catch (error:any) {
             throw new Error(error.message);
@@ -46,16 +46,16 @@ export class UsersDatabase extends BaseDatabase{
 
     getUserRole = async (adminID:string)=>{
         try {
-           const result =  await db.users.findUnique({
-                where:{
-                    id:adminID
-                },
-                select:{
-                    role:true
-                }
-            })
+        //    const result =  await db.users.findUnique({
+        //         where:{
+        //             id:adminID
+        //         },
+        //         select:{
+        //             role:true
+        //         }
+        //     })
 
-            return result?.role === "admin"
+        //     return result?.role === "admin"
 
         } catch (error:any) {
             throw new Error(error.message);
@@ -64,14 +64,14 @@ export class UsersDatabase extends BaseDatabase{
 
     updateUsersRole = async ({role, userID}:UpdateRoleUserModel)=>{
         try {
-            await db.users.update({
-                data:{
-                    role
-                },
-                where:{
-                    id:userID
-                },
-            })
+            // await db.users.update({
+            //     data:{
+            //         role
+            //     },
+            //     where:{
+            //         id:userID
+            //     },
+            // })
 
         } catch (error:any) {
             throw new Error(error.message);

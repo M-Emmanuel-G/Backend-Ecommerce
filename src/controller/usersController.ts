@@ -13,7 +13,7 @@ export class UserController{
             const body:UserModel = {
                 email,
                 name,
-                password
+                // password
             }
 
             await this.userBusiness.addUsers(body)
@@ -105,11 +105,10 @@ export class UserController{
     login = async (req:Request, res:Response)=>{
         try {
             
-            const {email, password} = req.body
+            const {email} = req.body
 
             const body:LoginModel = {
                 email,
-                password
             }
 
             const result = await this.userBusiness.login(body)
