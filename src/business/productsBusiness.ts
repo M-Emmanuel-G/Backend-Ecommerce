@@ -23,8 +23,7 @@ export class ProductsBusiness{
                 product,
             }
 
-            const changed = "Produto Adicionado!"
-
+            const changed = `O produto ${product} foi adicionado!`
             await this.auditLog.auditLog(changed, userID)
 
 
@@ -62,8 +61,8 @@ export class ProductsBusiness{
            const verifyProduct = await this.productsDatabase.getProduct(idProduct);
            if(!verifyProduct ) throw new ProductNotFound
 
-           const changed = "Produto Adicionado!"
-
+           const changed = `Produto ${verifyProduct.product} foi removido!`
+           
            await this.auditLog.auditLog(changed, userID)
            await this.productsDatabase.removeProduct(idProduct)
            
@@ -88,7 +87,7 @@ export class ProductsBusiness{
                 userID
             }
 
-            const changed = "Produto Atualizado!"
+            const changed = `Produto ${verifyProduct.product} foi atualizado!`
 
             await this.auditLog.auditLog(changed, userID)
 

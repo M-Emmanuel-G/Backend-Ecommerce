@@ -1,13 +1,15 @@
 import { BodyNotInserted, EmailAlreadyRegistered, EmailFormat } from "../customError/AllErrors";
 import { EmailNotInserted, PasswordNotInserted, PasswordWrong, RoleUserInvalid, RoleUserNotAdmin, RoleUserNotFound, UserNotFound } from "../customError/UserErrors";
 import { UsersDatabase } from "../database/UsersDatabase";
+import { AuditLogDatabase } from "../database/auditLogDatabase";
 import { LoginModel, UpdateRoleUserModel, UpdateRoleUserModelDTO, UpdateUserModelDTO, UpdateUserModes, UserModel } from "../models/usersModel";
 
 export class UserBusiness{
     
     userDatabase = new UsersDatabase()
+    auditLogDatabase = new AuditLogDatabase()
 
-        addUsers = async ({email, name,}:UserModel)=>{
+        addUsers = async ({email, name, password}:UserModel)=>{
             try {
                 if(!email || !name ) throw new BodyNotInserted();
                 if(!email.includes("@") || !email.includes(".com")) throw new EmailFormat();
@@ -15,13 +17,16 @@ export class UserBusiness{
                 const data:UserModel = {
                     email,
                     name,
-                    // password
+                    password
                 }
 
-                // const verifyEmail = await this.userDatabase.getUserEmail(email)
+                const verifyEmail = await this.userDatabase.getUserEmail(email)
                 
-                // if(verifyEmail) throw new EmailAlreadyRegistered();
+                if(verifyEmail) throw new EmailAlreadyRegistered();
 
+                const changed = `O usuario local ${name} foi cadastrado!`
+
+                await this.auditLogDatabase.createAudit({changed, user:name})
                 await this.userDatabase.addUsers(data)
                 
             } catch (error:any) {
@@ -54,6 +59,9 @@ export class UserBusiness{
                     password
                 }
 
+                const changed = `O usuário ${name} foi atualizado!`
+
+                await this.auditLogDatabase.createAudit({changed, user:id})
                 await this.userDatabase.updateUsers(updateData)
 
             } catch (error:any) {
@@ -83,6 +91,9 @@ export class UserBusiness{
                     userID
                 }
 
+                const changed = `A permissão do usuario ${verifyUser.name}, foi atualizada!`
+
+                await this.auditLogDatabase.createAudit({changed, user:verifyUser.name})
                 await this.userDatabase.updateUsersRole(data)
                 
             } catch (error:any) {
@@ -111,6 +122,9 @@ export class UserBusiness{
                 const verifyUser = await this.userDatabase.getUsers(id)
                 if(!verifyUser) throw new UserNotFound();
 
+                const changed = `O usuario ${verifyUser.name} foi removido!`
+
+                await this.auditLogDatabase.createAudit({changed, user:verifyUser.name})
                 await this.userDatabase.deleteUsers(id)
                 
             } catch (error:any) {

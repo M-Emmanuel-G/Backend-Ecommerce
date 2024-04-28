@@ -6,6 +6,7 @@ import { usersRouter } from './routes/userRouter';
 import { supplierRouter } from './routes/SupplierRouter';
 import { outputRouter } from './routes/outputsProductsRouter';
 import { entriesRouter } from './routes/entriesRouter';
+import { auditRouter } from './routes/auditLogRouter';
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.use("/InventoryStock/Users", usersRouter)
 app.use("/InventoryStock/Suppliers", supplierRouter)
 app.use("/InventoryStock/Outputs", outputRouter)
 app.use("/InventoryStock/Entries", entriesRouter)
-app.use("/InventoryStock/AuditLog/getAll", entriesRouter)
+app.use("/InventoryStock/AuditLog", auditRouter)
 
 app.listen(3003, ()=>{
     console.log('SERVER IS RUNNING IN PORT 3003');

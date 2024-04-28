@@ -45,7 +45,7 @@ export class OutputBusiness{
                 qtd:data.qtd
             }
 
-            const changed = "Nota de saida adicionada!"
+            const changed = `Nota de saida do produto ${verifyProduct.product} adicionada!`
 
             await this.auditLog.auditLog(changed, data.userID)
             

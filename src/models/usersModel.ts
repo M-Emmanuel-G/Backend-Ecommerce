@@ -1,7 +1,7 @@
 export interface UserModel{
     email:string,
     name:string,
-    // password:string
+    password:string
 }
 
 export interface UpdateUserModes{

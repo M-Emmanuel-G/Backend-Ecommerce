@@ -60,7 +60,7 @@ export class EntriesBusiness{
             if(!verifyProduct) throw new ProductNotFound()
             if(!verifySupplier) throw new SupplierNotFound()
 
-            const changed = "Nota de entrada adicionada!"
+            const changed = `Nota de entrada do produto ${verifyProduct.product} foi adicionada!`
 
             await this.auditLog.auditLog(changed, data.userID)
                     

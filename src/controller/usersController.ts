@@ -13,7 +13,7 @@ export class UserController{
             const body:UserModel = {
                 email,
                 name,
-                // password
+                password
             }
 
             await this.userBusiness.addUsers(body)

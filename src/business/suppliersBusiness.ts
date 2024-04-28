@@ -27,7 +27,7 @@ export class SuppliersBusiness{
 
             if(!address || !cnpj || !contact || !email || !supplier) throw new BodyNotInserted();
 
-            const changed = "Fornecedor Cadastrado!"
+            const changed = `O fornecedor ${supplier} cadastrado!`
 
             await this.auditLog.auditLog(changed, userID)
             
@@ -60,7 +60,7 @@ export class SuppliersBusiness{
             const verifySupplier = await this.supplierDatabase.getSupplier(data.supplierID)
             if(!verifySupplier) throw new SupplierNotFound();
 
-            const changed = "Fornecedor Cadastrado!"
+            const changed = `O fornecedor ${verifySupplier.supplier} Cadastrado!`
 
             await this.auditLog.auditLog(changed, data.userID)
 
@@ -78,7 +78,7 @@ export class SuppliersBusiness{
             if(!verifySupplier) throw new SupplierNotFound();
 
             
-            const changed = "Fornecedor Cadastrado!"
+            const changed = `O fornecedor ${verifySupplier.supplier} foi removido!`
             
             await this.auditLog.auditLog(changed, userID)
             await this.supplierDatabase.deleteSuppliers(id)

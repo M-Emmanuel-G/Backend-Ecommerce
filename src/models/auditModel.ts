@@ -1,4 +1,4 @@
 export interface AuditLogModel{
     changed:string
-    // user: string
+    user: string | null
 }

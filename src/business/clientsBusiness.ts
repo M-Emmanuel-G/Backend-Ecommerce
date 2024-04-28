@@ -33,8 +33,8 @@ export class ClientsBusines{
             if(!verifyUser) throw new UserNotFound();
             
             const dataAudit:AuditLogModel = {
-                changed:"Cliente Adicionado",
-                // user:verifyUser.name,
+                changed:`Cliente ${name} foi adicionado`,
+                user:verifyUser.name,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -80,8 +80,8 @@ export class ClientsBusines{
             if(!verifyUser) throw new UserNotFound();
             
             const dataAudit:AuditLogModel = {
-                changed:"Atualização de cliente",
-                // user:verifyUser.name,
+                changed:`Atualização dos dados do cliente ${name}`,
+                user:verifyUser.name,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -102,8 +102,8 @@ export class ClientsBusines{
             if(!verifyUser) throw new UserNotFound();
             
             const dataAudit:AuditLogModel = {
-                changed:"Cliente excluido!",
-                // user:verifyUser.name,
+                changed:`O cliente ${verifyClient.name} foi excluido!`,
+                user:verifyUser.name,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -141,8 +141,8 @@ export class ClientsBusines{
             if(!verifyUser) throw new UserNotFound();
             
             const dataAudit:AuditLogModel = {
-                changed:"Atualização de cliente",
-                // user:verifyUser.name,
+                changed:`Permissão do cliente ${verifyClient.name} foi alterada!`,
+                user:verifyUser.name,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
