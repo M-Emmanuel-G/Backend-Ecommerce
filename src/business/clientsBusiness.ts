@@ -34,7 +34,7 @@ export class ClientsBusines{
             
             const dataAudit:AuditLogModel = {
                 changed:`Cliente ${name} foi adicionado`,
-                user:verifyUser.name,
+                user:verifyUser.name as string,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -81,7 +81,7 @@ export class ClientsBusines{
             
             const dataAudit:AuditLogModel = {
                 changed:`Atualização dos dados do cliente ${name}`,
-                user:verifyUser.name,
+                user:verifyUser.name as string,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -103,7 +103,7 @@ export class ClientsBusines{
             
             const dataAudit:AuditLogModel = {
                 changed:`O cliente ${verifyClient.name} foi excluido!`,
-                user:verifyUser.name,
+                user:verifyUser.name as string,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
@@ -142,7 +142,7 @@ export class ClientsBusines{
             
             const dataAudit:AuditLogModel = {
                 changed:`Permissão do cliente ${verifyClient.name} foi alterada!`,
-                user:verifyUser.name,
+                user:verifyUser.name as string,
             }
             
             await this.auditDatabase.createAudit(dataAudit)
