@@ -93,7 +93,7 @@ export class UserBusiness{
 
                 const changed = `A permissão do usuario ${verifyUser.name}, foi atualizada!`
 
-                await this.auditLogDatabase.createAudit({changed, user:verifyUser.name})
+                await this.auditLogDatabase.createAudit({changed, user:verifyUser.name as string})
                 await this.userDatabase.updateUsersRole(data)
                 
             } catch (error:any) {
@@ -124,7 +124,7 @@ export class UserBusiness{
 
                 const changed = `O usuario ${verifyUser.name} foi removido!`
 
-                await this.auditLogDatabase.createAudit({changed, user:verifyUser.name})
+                await this.auditLogDatabase.createAudit({changed, user:verifyUser.name as string})
                 await this.userDatabase.deleteUsers(id)
                 
             } catch (error:any) {
