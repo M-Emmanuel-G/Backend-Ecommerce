@@ -78,13 +78,13 @@ export class SuppliersBusiness{
             if(!verifySupplier) throw new SupplierNotFound();
 
             
-            const changed = `O fornecedor ${verifySupplier.supplier} foi removido!`
+            const changed = `O fornecedor ${verifySupplier.supplier} foi removido.!`
             
             await this.auditLog.auditLog(changed, userID)
             await this.supplierDatabase.deleteSuppliers(id)
 
         } catch (error:any) {
-            throw new Error(error.message)
+            throw new Error(error.message) 
         }
     }
 }
