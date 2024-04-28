@@ -16,7 +16,7 @@ export class AuditLog{
 
             const audit:AuditLogModel ={
                 changed,
-                // user: verifyUser.name
+                user: verifyUser.name as string
             } 
 
             await this.auditDatabase.createAudit(audit)

@@ -10,7 +10,7 @@ export class AuditLogDatabase extends BaseDatabase{
                 data:{
                     date: DateGenerator.generateDate(),
                     changed: data.changed,
-                    user: ""
+                    user: data.user
                 }
             })
             
