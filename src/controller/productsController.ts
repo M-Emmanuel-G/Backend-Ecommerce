@@ -1,4 +1,4 @@
-import { ProductDTO } from './../models/productsModel';
+import { ProductDTO, UpdateProductPercentageModel } from './../models/productsModel';
 import { Request, Response } from "express";
 import { ProductsBusiness } from "../business/productsBusiness";
 
@@ -75,6 +75,30 @@ export class ProductsController{
 
         } catch (error:any) {
             res.status(400).send(error.message)
+        }
+    }
+
+    updateProductPercentage = async(req:Request, res:Response)=>{
+        try {
+          
+            const {percentage, price} = req.body
+            const {productID, userID} = req.params
+
+            const data:UpdateProductPercentageModel = {
+                percentage,
+                productID,
+                userID,
+                price
+            }
+            console.log(data);
+            
+
+            await this.productsBusiness.updateProductPercentage(data)
+
+            res.status(200).send({message:"Porcentagem do produto foi alterada com sucesso!"})
+            
+        } catch (error:any) {
+            res.status(400).send(error.message);
         }
     }
 }

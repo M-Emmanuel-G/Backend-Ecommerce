@@ -1,6 +1,6 @@
 import { BodyNotInserted } from './../customError/AllErrors';
 import { ProductsDatabase } from "../database/productsDatabase";
-import { Product, ProductDTO } from "../models/productsModel";
+import { Product, ProductDTO, UpdateProductPercentageModel } from "../models/productsModel";
 import { IdGenerator } from "../services/idGenerator";
 import { NumberFormat, ProductNotFound, ValueInvalid } from '../customError/ProductsErrors';
 import { AuditLog } from '../services/audit';
@@ -93,6 +93,23 @@ export class ProductsBusiness{
 
             await this.productsDatabase.updateProduct(newUpdate, idProduct)
 
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
+    }
+
+    updateProductPercentage = async(data:UpdateProductPercentageModel)=>{
+        try {
+            if(!data.percentage || !data.price) throw new BodyNotInserted();
+            
+            const product = await this.productsDatabase.getProduct(data.productID)
+            if(!product) throw new ProductNotFound();
+
+            const changed = `Porcentagem de venda do produto ${product.product} foi atualizada!`
+
+            await this.auditLog.auditLog(changed, data.userID)
+            await this.productsDatabase.updateProductPercentage(data)
+            
         } catch (error:any) {
             throw new Error(error.message);
         }
