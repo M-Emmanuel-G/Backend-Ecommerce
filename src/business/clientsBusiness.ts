@@ -73,7 +73,6 @@ export class ClientsBusines{
             const verifyUser = await this.usersDatabase.getUserEmail(userID)
             if(!verifyUser) throw new UserNotFound();
 
-            if(verifyUser.type !== "Admin") throw new RoleUserNotAdmin();
 
             const update:ClientsUpdateModel = {
                 name,

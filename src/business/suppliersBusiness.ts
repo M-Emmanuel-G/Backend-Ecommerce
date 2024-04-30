@@ -65,9 +65,7 @@ export class SuppliersBusiness{
 
             const user = await this.userDatabase.getUserID(data.userID)
             if(!user) throw new UserNotFound();
-            if(user.type !== "Admin") throw new RoleUserNotAdmin();
             
-
             const changed = `O fornecedor ${verifySupplier.supplier} Cadastrado!`
 
             await this.auditLog.auditLog(changed, data.userID)
