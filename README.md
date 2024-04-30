@@ -29,10 +29,20 @@ Márcio Emmanuel Gonçalves
    * Supabase
    * MomentJS
   
-## links
+## Links
 
    * Link dos endpoints - https://ecommerce-backend-dpon.onrender.com
    * []()
+
+## Endpoints
+
+   ### USERS
+   * https://ecommerce-backend-dpon.onrender.com/Users/getAllUsers                                                    - Retorna todos os usuários
+   * https://ecommerce-backend-dpon.onrender.com/Users/getUser/:userID                                                - Retorna um usuario específico pelo ID
+   * https://ecommerce-backend-dpon.onrender.com/Users/create                                                         - Adiciona novo usuários
+   * https://ecommerce-backend-dpon.onrender.com/Users/update/:userID                                                 - Atualiza informações do usuário
+   * https://ecommerce-backend-dpon.onrender.com/Users/update/role/userID/:userID/adminID/:adminID                    - Atualiza autorização do usuário
+   * https://ecommerce-backend-dpon.onrender.com/Users//delete/userID/:userID                                         - Exclui usuário
 
 ## Objetivo do projeto
 
