@@ -40,7 +40,7 @@ export class OutputBusiness{
             
             const newData:OutPutProductsModel = {
                 clientID:data.clientID,
-                date:DateGenerator.generateDate(),
+                date:DateGenerator.dateNow(),
                 productID:data.productID,
                 qtd:data.qtd
             }

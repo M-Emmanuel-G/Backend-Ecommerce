@@ -34,7 +34,7 @@ export class EntriesDatabase extends BaseDatabase{
         try {
             await EntriesDatabase.connection.productEntries.create({
                 data:{
-                    date:DateGenerator.generateDate(),
+                    date:DateGenerator.dateNow(),
                     price:data.price,
                     qtd:data.qtd,
                     note_value: data.price * data.qtd,

@@ -20,7 +20,7 @@ export class ProductsDatabase extends BaseDatabase{
 
             await ProductsDatabase.connection.products.create({
                 data:{
-                    entry_time:DateGenerator.generateDate(),
+                    entry_time:DateGenerator.dateNow(),
                     price:data.productPrice,
                     product:data.product,
                     qtd_stock:0,
