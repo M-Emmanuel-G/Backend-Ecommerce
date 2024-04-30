@@ -1,5 +1,5 @@
 import { BodyNotInserted, ClientNotFound, EmailFormat } from "../customError/AllErrors";
-import { UserNotFound } from "../customError/UserErrors";
+import { RoleUserNotAdmin, UserNotFound } from "../customError/UserErrors";
 import { AvailableInvalid} from "../customError/clientsErrors";
 import { UsersDatabase } from "../database/UsersDatabase";
 import { AuditLogDatabase } from "../database/auditLogDatabase";
@@ -70,6 +70,11 @@ export class ClientsBusines{
             const verifyClient = await this.clientsDatabase.getClient(id)
             if(!verifyClient) throw new ClientNotFound();
 
+            const verifyUser = await this.usersDatabase.getUserEmail(userID)
+            if(!verifyUser) throw new UserNotFound();
+
+            if(verifyUser.type !== "Admin") throw new RoleUserNotAdmin();
+
             const update:ClientsUpdateModel = {
                 name,
                 address,
@@ -79,8 +84,7 @@ export class ClientsBusines{
                 available,
                 userID
             }
-            const verifyUser = await this.usersDatabase.getUserEmail(userID)
-            if(!verifyUser) throw new UserNotFound();
+
             
             const dataAudit:AuditLogModel = {
                 changed:`Atualização dos dados do cliente ${name}`,
