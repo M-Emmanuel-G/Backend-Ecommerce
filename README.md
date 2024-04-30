@@ -37,12 +37,12 @@ Márcio Emmanuel Gonçalves
 ## Endpoints
 
    ### USERS
-   * https://ecommerce-backend-dpon.onrender.com/Users/getAllUsers                                                    - Retorna todos os usuários
-   * https://ecommerce-backend-dpon.onrender.com/Users/getUser/:userID                                                - Retorna um usuario específico pelo ID
-   * https://ecommerce-backend-dpon.onrender.com/Users/create                                                         - Adiciona novo usuários
-   * https://ecommerce-backend-dpon.onrender.com/Users/update/:userID                                                 - Atualiza informações do usuário
-   * https://ecommerce-backend-dpon.onrender.com/Users/update/role/userID/:userID/adminID/:adminID                    - Atualiza autorização do usuário
-   * https://ecommerce-backend-dpon.onrender.com/Users//delete/userID/:userID                                         - Exclui usuário
+   * https://ecommerce-backend-dpon.onrender.com/Users/getAllUsers                                                - GET    - Retorna todos os usuários
+   * https://ecommerce-backend-dpon.onrender.com/Users/getUser/:userID                                            - GET    - Retorna um usuario específico pelo ID
+   * https://ecommerce-backend-dpon.onrender.com/Users/create                                                     - POST   - Adiciona novo usuários
+   * https://ecommerce-backend-dpon.onrender.com/Users/update/:userID                                             - PATCH  - Atualiza informações do usuário
+   * https://ecommerce-backend-dpon.onrender.com/Users/update/role/userID/:userID/adminID/:adminID                - PATCH  - Atualiza autorização do usuário
+   * https://ecommerce-backend-dpon.onrender.com/Users//delete/userID/:userID                                     - DELETE - Exclui usuário
 
 ## Objetivo do projeto
 
