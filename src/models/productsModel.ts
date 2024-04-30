@@ -13,3 +13,10 @@ export interface UpdateProductStockModel{
     qtdStock:number
     productID:string
 }
+
+export interface UpdateProductPercentageModel{
+    percentage:number
+    productID:string
+    userID:string
+    price:number
+}

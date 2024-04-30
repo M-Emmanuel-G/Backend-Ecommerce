@@ -1,5 +1,7 @@
 import { BodyNotInserted } from "../customError/AllErrors"
+import { RoleUserNotAdmin, UserNotFound } from "../customError/UserErrors"
 import { SupplierNotFound } from "../customError/supplierError"
+import { UsersDatabase } from "../database/UsersDatabase"
 import { SuppliersDatabase } from "../database/suppliersDatabase"
 import { SupplierModel, UpdateSupplierModel } from "../models/suppliersModel"
 import { AuditLog } from "../services/audit"
@@ -8,6 +10,7 @@ export class SuppliersBusiness{
 
     supplierDatabase = new SuppliersDatabase()
     auditLog = new AuditLog()
+    userDatabase = new UsersDatabase()
 
     getAllSuppliers  = async ()=>{
         try {
@@ -60,6 +63,9 @@ export class SuppliersBusiness{
             const verifySupplier = await this.supplierDatabase.getSupplier(data.supplierID)
             if(!verifySupplier) throw new SupplierNotFound();
 
+            const user = await this.userDatabase.getUserID(data.userID)
+            if(!user) throw new UserNotFound();
+            
             const changed = `O fornecedor ${verifySupplier.supplier} Cadastrado!`
 
             await this.auditLog.auditLog(changed, data.userID)

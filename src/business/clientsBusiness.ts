@@ -1,5 +1,5 @@
 import { BodyNotInserted, ClientNotFound, EmailFormat } from "../customError/AllErrors";
-import { UserNotFound } from "../customError/UserErrors";
+import { RoleUserNotAdmin, UserNotFound } from "../customError/UserErrors";
 import { AvailableInvalid} from "../customError/clientsErrors";
 import { UsersDatabase } from "../database/UsersDatabase";
 import { AuditLogDatabase } from "../database/auditLogDatabase";
@@ -8,6 +8,7 @@ import { AuditLogModel } from "../models/auditModel";
 import { ClientsModel, ClientsUpdateModel, updateClientAvailable } from "../models/clientsModel";
 
 export class ClientsBusines{
+
     clientsDatabase = new ClientsDatabase();
     auditDatabase = new AuditLogDatabase()
     usersDatabase = new UsersDatabase()
@@ -29,7 +30,7 @@ export class ClientsBusines{
             }
             
             
-            const verifyUser = await this.usersDatabase.getUserEmail(userID)
+            const verifyUser = await this.usersDatabase.getUserID(userID)
             if(!verifyUser) throw new UserNotFound();
             
             const dataAudit:AuditLogModel = {
@@ -39,6 +40,8 @@ export class ClientsBusines{
             
             await this.auditDatabase.createAudit(dataAudit)
             await this.clientsDatabase.createClient(addData)
+
+            
 
         } catch (error:any) {
             throw new Error(error.message);
@@ -67,6 +70,10 @@ export class ClientsBusines{
             const verifyClient = await this.clientsDatabase.getClient(id)
             if(!verifyClient) throw new ClientNotFound();
 
+            const verifyUser = await this.usersDatabase.getUserEmail(userID)
+            if(!verifyUser) throw new UserNotFound();
+
+
             const update:ClientsUpdateModel = {
                 name,
                 address,
@@ -76,8 +83,7 @@ export class ClientsBusines{
                 available,
                 userID
             }
-            const verifyUser = await this.usersDatabase.getUserEmail(userID)
-            if(!verifyUser) throw new UserNotFound();
+
             
             const dataAudit:AuditLogModel = {
                 changed:`Atualização dos dados do cliente ${name}`,

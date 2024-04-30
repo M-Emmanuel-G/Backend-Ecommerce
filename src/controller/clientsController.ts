@@ -108,7 +108,7 @@ export class ClientsController{
 
             await this.clientsBusiness.updateClientAvailable(data)
 
-            res.status(200).send({message:"Disponibilidade alterada com sucesso!"})
+            res.status(200).send({message:"Permissão foi alterada com sucesso!"})
             
         } catch (error:any) {
             res.status(400).send(error.message)
