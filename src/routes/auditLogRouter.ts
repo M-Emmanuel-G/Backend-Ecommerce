@@ -6,4 +6,4 @@ export const auditRouter = express.Router()
 
 const auditController = new AuditLogController()
 
-auditRouter.get('/getall', auditController.getAllAudit)
+auditRouter.get('/getall/userID/:userID', auditController.getAllAudit)

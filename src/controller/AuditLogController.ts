@@ -8,7 +8,9 @@ export class AuditLogController{
     getAllAudit = async (req:Request, res:Response)=>{
         try {
 
-            const result = await this.auditLogBusiness.getAllAudit()
+            const {userID} = req.params
+
+            const result = await this.auditLogBusiness.getAllAudit(userID)
             res.status(200).send(result)
 
         } catch (error:any) {

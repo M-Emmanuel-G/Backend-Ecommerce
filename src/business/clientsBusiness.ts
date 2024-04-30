@@ -8,6 +8,7 @@ import { AuditLogModel } from "../models/auditModel";
 import { ClientsModel, ClientsUpdateModel, updateClientAvailable } from "../models/clientsModel";
 
 export class ClientsBusines{
+
     clientsDatabase = new ClientsDatabase();
     auditDatabase = new AuditLogDatabase()
     usersDatabase = new UsersDatabase()
@@ -29,7 +30,7 @@ export class ClientsBusines{
             }
             
             
-            const verifyUser = await this.usersDatabase.getUserEmail(userID)
+            const verifyUser = await this.usersDatabase.getUserID(userID)
             if(!verifyUser) throw new UserNotFound();
             
             const dataAudit:AuditLogModel = {
@@ -39,6 +40,8 @@ export class ClientsBusines{
             
             await this.auditDatabase.createAudit(dataAudit)
             await this.clientsDatabase.createClient(addData)
+
+            
 
         } catch (error:any) {
             throw new Error(error.message);
