@@ -8,7 +8,7 @@ export class AuditLogDatabase extends BaseDatabase{
         
             await AuditLogDatabase.connection.auditLog.create({
                 data:{
-                    date: DateGenerator.generateDate(),
+                    date: DateGenerator.dateNow(),
                     changed: data.changed,
                     user: data.user
                 }
